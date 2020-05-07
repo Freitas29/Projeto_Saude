@@ -32,7 +32,7 @@ export default {
 <style lang="scss" scoped>
 .apresentacao {
   margin: 0 auto;
-  min-height: 90.8vh;
+  min-height: 93.8vh;
   widows: 100%;
   display: flex;
   justify-content: space-around;
@@ -45,17 +45,19 @@ export default {
     width: 50%;
     position: relative;
     color: #fff;
+    
 
     h1{
       font-size: 50px;
       margin-bottom: 1rem;
+      color: #D4F5FF
     }
 
     p{
       text-align: justify;
       font-size: 30px;
       font-weight: 700;
-      color: #ffffff94
+      color: #D4F5FF
     }
   }
 

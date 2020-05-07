@@ -16,9 +16,11 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
 html {
-  font-family: 'Roboto', sans-serif;
+/* font-family: 'Roboto', sans-serif; */
+  font-family: 'Oxygen', sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
