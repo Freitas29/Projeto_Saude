@@ -1,30 +1,19 @@
 <template>
   <div>
-
-<NavBar>
-  
-  
-   </NavBar>
-
+    <NavBar />
     <nuxt />
   </div>
 </template>
 
 <script>
-
-import NavBar from "../components/NavBar"
+import NavBar from '../components/NavBar'
 
 export default {
-
-components: {
-
-NavBar
-
-}
-  
+  components: {
+    NavBar
+  }
 }
 </script>
-
 
 <style>
 html {
