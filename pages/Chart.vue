@@ -10,8 +10,14 @@ import am4geodata_worldLow from '@amcharts/amcharts4-geodata/brazilLow'
 
 am4core.useTheme(am4themes_animated)
 export default {
-  name: 'HelloWorld',
+  data() {
+    return {
+      stateSelect: ''
+    }
+  },
+  name: 'Brazil-Chart',
   mounted() {
+    let vmo = this
     am4core.useTheme(am4themes_animated)
 
     let chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart)
@@ -20,38 +26,49 @@ export default {
 
     chart.projection = new am4maps.projections.Miller()
 
-    var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries())
+    let polygonSeries = chart.series.push(new am4maps.MapPolygonSeries())
 
     polygonSeries.useGeodata = true
 
-    var polygonTemplate = polygonSeries.mapPolygons.template
+    let polygonTemplate = polygonSeries.mapPolygons.template
     polygonTemplate.applyOnClones = true
     polygonTemplate.togglable = true
     polygonTemplate.tooltipText = '{name}'
     polygonTemplate.nonScalingStroke = true
     polygonTemplate.strokeOpacity = 0.5
-    polygonTemplate.fill = chart.colors.getIndex(0)
-    var lastSelected
+    polygonTemplate.fill = '#1D3557'
+    let lastSelected
 
-    polygonTemplate.events.on('hit', function(ev) {
-      if (lastSelected) {
-        let stateName = ev.target.dataItem._dataContext
+    chart.zoomControl = new am4maps.ZoomControl();
 
-        lastSelected.isActive = false
-      }
-      if (lastSelected !== ev.target) {
-        lastSelected = ev.target
-      }
-    })
+    chart.zoomControl.slider.height = 1
+
+    vmo.handleClickState(polygonTemplate, lastSelected)
 
     /* Create selected and hover states and set alternative fill color */
-    var ss = polygonTemplate.states.create('active')
+    let ss = polygonTemplate.states.create('active')
     ss.properties.fill = chart.colors.getIndex(2)
 
-    var hs = polygonTemplate.states.create('hover')
+    let hs = polygonTemplate.states.create('hover')
     hs.properties.fill = chart.colors.getIndex(4)
 
     this.chart = chart
+  },
+
+  methods: {
+    handleClickState(map, lastStateSelected) {
+      const vmo = this
+      map.events.on('hit', function(ev) {
+        if (lastStateSelected) {
+          vmo.stateSelect = ev.target.dataItem._dataContext
+
+          lastStateSelected.isActive = false
+        }
+        if (lastStateSelected !== ev.target) {
+          lastStateSelected = ev.target
+        }
+      })
+    }
   },
 
   beforeDestroy() {
