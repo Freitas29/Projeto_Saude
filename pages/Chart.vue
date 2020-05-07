@@ -1,61 +1,69 @@
 <template>
-  <div class="hello" ref="chartdiv" />
+  <div class="chart" ref="chartdiv" />
 </template>
 
 <script>
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import * as am4core from '@amcharts/amcharts4/core'
+import * as am4maps from '@amcharts/amcharts4/maps'
+import am4themes_animated from '@amcharts/amcharts4/themes/animated'
+import am4geodata_worldLow from '@amcharts/amcharts4-geodata/brazilLow'
 
-am4core.useTheme(am4themes_animated);
+am4core.useTheme(am4themes_animated)
 export default {
-    name: 'HelloWorld',
+  name: 'HelloWorld',
   mounted() {
-    let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
+    am4core.useTheme(am4themes_animated)
 
-    chart.paddingRight = 20;
+    let chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart)
 
-    let data = [];
-    let visits = 10;
-    for (let i = 1; i < 366; i++) {
-      visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-      data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
-    }
+    chart.geodata = am4geodata_worldLow
 
-    chart.data = data;
+    chart.projection = new am4maps.projections.Miller()
 
-    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.grid.template.location = 0;
+    var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries())
 
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
-    valueAxis.renderer.minWidth = 35;
+    polygonSeries.useGeodata = true
 
-    let series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "date";
-    series.dataFields.valueY = "value";
+    var polygonTemplate = polygonSeries.mapPolygons.template
+    polygonTemplate.applyOnClones = true
+    polygonTemplate.togglable = true
+    polygonTemplate.tooltipText = '{name}'
+    polygonTemplate.nonScalingStroke = true
+    polygonTemplate.strokeOpacity = 0.5
+    polygonTemplate.fill = chart.colors.getIndex(0)
+    var lastSelected
 
-    series.tooltipText = "{valueY.value}";
-    chart.cursor = new am4charts.XYCursor();
+    polygonTemplate.events.on('hit', function(ev) {
+      if (lastSelected) {
+        let stateName = ev.target.dataItem._dataContext
 
-    let scrollbarX = new am4charts.XYChartScrollbar();
-    scrollbarX.series.push(series);
-    chart.scrollbarX = scrollbarX;
+        lastSelected.isActive = false
+      }
+      if (lastSelected !== ev.target) {
+        lastSelected = ev.target
+      }
+    })
 
-    this.chart = chart;
+    /* Create selected and hover states and set alternative fill color */
+    var ss = polygonTemplate.states.create('active')
+    ss.properties.fill = chart.colors.getIndex(2)
+
+    var hs = polygonTemplate.states.create('hover')
+    hs.properties.fill = chart.colors.getIndex(4)
+
+    this.chart = chart
   },
 
   beforeDestroy() {
     if (this.chart) {
-      this.chart.dispose();
+      this.chart.dispose()
     }
   }
 }
-
 </script>
 
 <style>
-.hello {
+.chart {
   width: 100%;
   height: 500px;
 }

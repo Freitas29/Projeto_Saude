@@ -14,6 +14,7 @@
   "dependencies": {
     "@lottiefiles/lottie-player": "^0.5.1",
     "@amcharts/amcharts4": "^4.9.19",
+    "@amcharts/amcharts4-geodata": "^4.1.14",
     "@nuxtjs/axios": "^5.3.6",
     "element-ui": "^2.4.11",
     "nuxt": "^2.0.0"
