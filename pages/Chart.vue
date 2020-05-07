@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Brazil />
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <!-- <Brazil /> -->
     <el-dialog
       title="Filtro"
       :visible.sync="dialogVisible"
