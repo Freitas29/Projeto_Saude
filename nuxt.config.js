@@ -10,10 +10,11 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
-      { name: 'google-signin-client_id', content: "963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com" }
+      { name: 'google-signin-client_id', content: "963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com" },
     ],
     script: [
-      { src: 'https://apis.google.com/js/platform.js' }
+      { src: 'https://apis.google.com/js/platform.js' },
+      { src: 'https://apis.google.com/js/api:client.js' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
