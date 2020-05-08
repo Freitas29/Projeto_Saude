@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <Brazil />
+  <div>    <Brazil />
     <el-dialog title="Filtro" :visible.sync="dialogVisible" width="30%">
       <span
         >Deseja pesquisar pelo estado de <b>{{ stateName }}</b
@@ -23,42 +22,51 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      stateName: ''
+      stateName: '',
     }
   },
-  async mounted() {
+  mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
-
-    gapi.load('client:auth2', async function() {
+    
+    gapi.load('client:auth2', function() {
       gapi.auth2.init({
-        client_id:
-          '963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com',
-        scope: 'https://www.googleapis.com/auth/bigquery.readonly'
+        client_id: '963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com',
+        scope: "https://www.googleapis.com/auth/bigquery.readonly"
       })
     })
   },
   methods: {
-    async authenticate() {
-      const { access_token } = await gapi.auth2
+    authenticate() {
+      const vmo = this
+
+      return gapi.auth2
         .getAuthInstance()
-        .signIn({ scope: 'email profile openid' })
+        .signIn({
+          scope: 'email profile openid'
+        })
+        .then(
+          function(resp) {
+            
+            const { access_token } = resp.getAuthResponse()
 
-      const url =
-        'https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/ANS_BENEFICIARIOS/data?maxResults=1000&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ'
-
-      const configHeaders = {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          Accept: 'application/json'
-        }
-      }
-
-      try {
-        const { rows } = this.$axios.get(url, { ...configHeaders })
-      } catch (error) {}
+            vmo.$axios.get(
+              'https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/ANS_BENEFICIARIOS/data?maxResults=1000&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ',
+              {
+                headers: {
+                  Authorization: `Bearer ${access_token}`,
+                  Accept: 'application/json'
+                }
+              }
+            )
+          },
+          function(err) {
+            console.error('Error signing in', err)
+          }
+        )
     },
     handleConfirm() {
-      dialogVisible = false
+      this.dialogVisible = false
+      this.authenticate()
     },
     handleStateClicked(state) {
       const { name } = state
