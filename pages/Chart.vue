@@ -45,11 +45,11 @@ export default {
           scope: 'email profile openid'
         })
         .then(
-          function(resp) {
+          async function(resp) {
             
             const { access_token } = resp.getAuthResponse()
 
-            vmo.$axios.get(
+            const response = await vmo.$axios.get(
               'https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/ANS_BENEFICIARIOS/data?maxResults=1000&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ',
               {
                 headers: {
@@ -58,6 +58,9 @@ export default {
                 }
               }
             )
+
+            const { data: { rows } } = response
+
           },
           function(err) {
             console.error('Error signing in', err)
@@ -72,6 +75,10 @@ export default {
       const { name } = state
       this.stateName = name
       this.dialogVisible = true
+    },
+    clearString(estado){
+      const normalize  = estado.normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, '');
+      return normalize.replace(/[^\w\s]/gi, "")
     }
   },
   components: {
