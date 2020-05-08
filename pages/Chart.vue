@@ -87,7 +87,7 @@ export default {
             vmo.loading = false
           },
           function(err) {
-            console.error('Error signing in', err)
+            vmo.loading = false
           }
         )
     },
