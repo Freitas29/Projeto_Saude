@@ -11,16 +11,19 @@ import NavBar from '../components/NavBar'
 export default {
   components: {
     NavBar
-  }
+  },
+  transition: {
+      name: 'page',
+      mode: 'out-in'
+    },
 }
 </script>
 
 <style>
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,300&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Oxygen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 html {
-/* font-family: 'Roboto', sans-serif; */
-  font-family: 'Oxygen', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
@@ -65,6 +68,26 @@ html {
   color: #fff;
   background-color: #35495e;
 }
-
-
+.page-enter-active {
+  animation: acrossIn 0.8s ease-out both;
+}
+.page-leave-active {
+  animation: acrossOut 0.4s ease-in both;
+}
+@keyframes acrossIn {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes acrossOut {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
 </style>

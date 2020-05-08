@@ -34,6 +34,10 @@ import '@lottiefiles/lottie-player'
 
 export default {
   name: 'Chart',
+    transition: {
+      name: 'page',
+      mode: 'out-in'
+    },
   data() {
     return {
       dialogVisible: false,

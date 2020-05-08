@@ -1,40 +1,67 @@
 <template>
-  <el-menu
-  
-    class="el-menu"
-    mode="horizontal"
-    background-color="#2a7ae4"
-    text-color="#D4F5FF"
-    active-text-color="#ffd04b"
-    
-  >
-    <el-menu-item index="0">
-      <img src="~/assets/ea.jpg" style="width:40px; height:40px" />
-    </el-menu-item>
-
-    <el-menu-item index="1">O que fazemos</el-menu-item>
-    <el-menu-item index="2">Nosso Produto</el-menu-item>
-    <el-menu-item index="3">
-    <a  style=" text-decoration: none;"
-        href="https://www.ele.me"
-        target="_blank"> Diferencial</a>
-    </el-menu-item>
-  </el-menu>
+  <el-row class="nav">
+    <el-col :span="4" class="navbar__logo-box">
+      <NuxtLink to="/">
+        <img src="~/assets/ea.jpg" alt="" class="navbar__logo" />
+      </NuxtLink>
+    </el-col>
+    <el-col :span="20" class="navbar__menu-box">
+      <ul class="el-menu el-menu--horizontal navbar__menu">
+        <li class="el-menu-item">O que somos</li>
+        
+        <li class="el-menu-item"><NuxtLink to="/chart">Nosso produto</NuxtLink></li>
+        <li class="el-menu-item">Diferencial</li>
+      </ul>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
 export default {
-  name: 'NavBar_P'
+  name: 'NavBar'
 }
 </script>
 
-<style>
-/* @import url('https://fonts.googleapis.com/css2?family=Acme&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
-.el-menu {
-  border: none !important;
-  /* font-family: 'Acme', sans-serif; */
-  font-family: 'Concert One', cursive;
+<style lang="scss">
+$primary: #1D3557;
 
+.nav{
+  background-color: $primary;
+}
+
+li{
+  color: #ffffff !important;
+  font-size: 18px !important;
+}
+
+li:hover{
+  background-color: #2A5FE4 !important;
+}
+
+a{
+  text-decoration: none !important;
+}
+
+img{
+  width: 40px;
+  height: auto;
+}
+.navbar__logo-box{
+  background-color: $primary;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__menu-box{
+    background-color: $primary;
+    height: 60px;
+}
+.el-menu {
+    background-color: $primary;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 </style>
