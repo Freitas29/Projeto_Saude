@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div class="g-signin2" ref="googleSignin"></div>
-    <!-- <Brazil /> -->
+    <Brazil />
     <el-dialog title="Filtro" :visible.sync="dialogVisible" width="30%">
       <span
         >Deseja pesquisar pelo estado de <b>{{ stateName }}</b
@@ -25,47 +24,52 @@ export default {
     return {
       dialogVisible: false,
       stateName: '',
-      auth2: {},
-      userId: '',
     }
   },
-  mounted() {
+  async mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
-    this.initButtonGoogle()
+
+    gapi.load('client:auth2', async function() {
+      gapi.auth2.init({
+        client_id: '963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com',
+        scope: "https://www.googleapis.com/auth/bigquery.readonly"
+      })
+    })
+
   },
   methods: {
+    async authenticate() {
+
+      const { access_token } =  await gapi.auth2.getAuthInstance().signIn({scope: 'email profile openid'})
+
+
+      const url = 'https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/ANS_BENEFICIARIOS/data?maxResults=1000&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ'
+
+      const configHeaders = {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: 'application/json'
+        }
+      }
+
+      try {
+          const { rows } =  this.$axios.get(url,{ ...configHeaders })
+      } catch (error) {
+      }
+
+    },
     handleConfirm() {
       dialogVisible = false
-    },
-    initButtonGoogle() {
-      const vmo = this
-      gapi.load('auth2', () => {
-        vmo.auth2 = gapi.auth2.init({
-          client_id:
-            '963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com',
-          cookiepolicy: 'single_host_origin'
-        })
-        vmo.attachSignin(vmo.$refs.googleSignin)
-      })
-    },
-    attachSignin(element) {
-      const vmo = this
-
-      this.auth2.attachClickHandler(
-        element,
-        {},
-        function(googleUser) {
-          vmo.userId = googleUser.getBasicProfile().getId()
-        },
-        function(error) {
-          alert(JSON.stringify(error, undefined, 2))
-        }
-      )
     },
     handleStateClicked(state) {
       const { name } = state
       this.stateName = name
       this.dialogVisible = true
+    },
+  },
+  watch: {
+    stateName(value){
+      console.log("value", value)
     }
   },
   components: {
