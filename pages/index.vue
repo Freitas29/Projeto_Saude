@@ -33,7 +33,7 @@ export default {
 .apresentacao {
   margin: 0 auto;
   min-height: 93.8vh;
-  widows: 100%;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
