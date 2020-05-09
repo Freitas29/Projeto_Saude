@@ -104,11 +104,12 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('resize', this.handleScreen)
+    this.handleScreen()
   },
   methods: {
-    handleResize(event) {
-      if (event.target.innerWidth <= 600) {
+    handleScreen() {
+      if (window.innerWidth <= 600) {
         this.isMobile = true
         return
       }
@@ -132,11 +133,11 @@ $primary: #1d3557;
     color: #ffffff !important;
     font-size: 18px !important;
 
-    &:hover{
-        background-color: #2a5fe4;
-    }
-  }
-  
+  } 
+}
+
+.nav li:hover{
+  background-color: #2a5fe4 !important;
 }
 
 a {
@@ -274,6 +275,12 @@ img {
     align-items: center;
     justify-content: flex-end;
     background-color: transparent !important;
+
+    li{
+      &:hover {
+        background-color: inherit !important;
+      }
+    }
   }
   &__item {
 
@@ -302,7 +309,6 @@ img {
   }
 }
 
-// Dropdown Menu
 
 .dropdown__menu {
   top: 100%;
@@ -339,7 +345,7 @@ img {
     border-radius: 0 50px 50px 0;
     &:hover {
       outline: none;
-      color: #ffffff;
+      color: #000;
       background-color: rgba(79, 192, 141, 0.1) !important;
     }
   }
