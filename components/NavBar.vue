@@ -9,9 +9,11 @@
       <ul class="el-menu el-menu--horizontal navbar__menu">
         <li class="el-menu-item">O que somos</li>
 
-        <li class="el-menu-item">
-          <NuxtLink to="/chart">Nosso produto</NuxtLink>
-        </li>
+        <NuxtLink to="/chart">
+          <li class="el-menu-item">
+            Nosso produto
+          </li>
+        </NuxtLink>
         <li class="el-menu-item">Diferencial</li>
       </ul>
     </el-col>
