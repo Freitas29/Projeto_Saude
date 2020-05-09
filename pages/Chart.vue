@@ -14,7 +14,7 @@
         />
       </div>
     </transition>
-    <el-dialog title="Filtro" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="Filtro" :visible.sync="dialogVisible" custom-class="dialog-modal">
       <span
         >Deseja pesquisar pelo estado de <b>{{ stateName }}</b
         >?</span
@@ -134,4 +134,15 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.dialog-modal{
+  width: 30%
+}
+
+@media only screen and (max-width: 600px) {
+  .dialog-modal{
+    width: 95%
+  }
+}
+
 </style>
