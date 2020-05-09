@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Brazil v-if="!loading" />
+    <transition name="fade">
+      <Brazil v-if="!loading || !hasResult" />
+    </transition>
+
+    <transition name="fade">
+      <Table :tableData="rows" v-if="!loading && hasResult" />
+    </transition>
 
     <transition name="fade">
       <div class="animation-loading" v-if="loading">
@@ -14,9 +20,13 @@
         />
       </div>
     </transition>
-    <el-dialog title="Filtro" :visible.sync="dialogVisible" custom-class="dialog-modal">
+    <el-dialog
+      title="Filtro"
+      :visible.sync="dialogVisible"
+      custom-class="dialog-modal"
+    >
       <span
-        >Deseja pesquisar pelo estado de <b>{{ stateName }}</b
+        >Deseja pesquisar pelo estado de <b>{{ stateSelected.name }}</b
         >?</span
       >
 
@@ -31,18 +41,26 @@
 <script>
 import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
+import Table from '~/components/Table'
 
 export default {
   name: 'Chart',
-    transition: {
-      name: 'page',
-      mode: 'out-in'
-    },
+  transition: {
+    name: 'page',
+    mode: 'out-in'
+  },
+  components: {
+    Brazil,
+    Table
+  },
   data() {
     return {
       dialogVisible: false,
-      stateName: '',
-      loading: false
+      stateSelected: {},
+      loading: false,
+      rows: [],
+      hasResult: false,
+      pageToken: '',
     }
   },
   mounted() {
@@ -70,20 +88,24 @@ export default {
           async function(resp) {
             const { access_token } = resp.getAuthResponse()
 
-            const response = await vmo.$axios.get(
-              'https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/ANS_BENEFICIARIOS/data?maxResults=1000&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ',
-              {
-                headers: {
-                  Authorization: `Bearer ${access_token}`,
-                  Accept: 'application/json'
-                }
+            const perPage = 50
+
+
+            const url = `https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/BENEFICIARIOS_${vmo.stateSelected.initials}/data?maxResults=${perPage}&pageToken=${vmo.pageToken}&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ`
+
+            const response = await vmo.$axios.get(url, {
+              headers: {
+                Authorization: `Bearer ${access_token}`,
+                Accept: 'application/json'
               }
-            )
+            })
 
             const {
-              data: { rows }
+              data: { rows, pageToken }
             } = response
 
+            vmo.rows = rows
+            vmo.pageToken = pageToken
             vmo.loading = false
           },
           function(err) {
@@ -96,8 +118,15 @@ export default {
       this.authenticate()
     },
     handleStateClicked(state) {
-      const { name } = state
-      this.stateName = name
+      const { name, id } = state
+
+      const initials = id.split('-')[1]
+
+      this.stateSelected = {
+        name,
+        initials
+      }
+
       this.dialogVisible = true
     },
     clearString(estado) {
@@ -107,8 +136,14 @@ export default {
       return normalize.replace(/[^\w\s]/gi, '')
     }
   },
-  components: {
-    Brazil
+  watch: {
+    rows(value) {
+      if (value.length > 0) {
+        this.hasResult = true
+      } else {
+        this.hasResult = false
+      }
+    }
   }
 }
 </script>
@@ -128,21 +163,21 @@ export default {
   justify-content: center;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 
-.dialog-modal{
-  width: 30%
+.dialog-modal {
+  width: 30%;
 }
 
 @media only screen and (max-width: 600px) {
-  .dialog-modal{
-    width: 95%
+  .dialog-modal {
+    width: 95%;
   }
 }
-
 </style>
