@@ -1,5 +1,7 @@
 <template>
-  <div class="apresentacao">
+<div>
+
+  <div class="apresentacao estilo" >
     <el-row >
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <div class="textos">
@@ -24,6 +26,61 @@
       </el-col>
     </el-row>
   </div>
+
+<div class="mapa estilo">
+    <el-row >
+
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <lottie-player
+          src="https://assets10.lottiefiles.com/packages/lf20_ebikt2.json"
+          background="transparent"
+          speed="1"
+          style="width: 100%; height: 40vh;"
+          loop
+          autoplay
+        />
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <div class="textos">
+          <h1>Teste</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            eu placerat felis, quis lobortis nisi. Nunc ut interdum libero.
+            Fusce posuere vel tortor sed maximus.
+          </p>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
+
+  <div class="apresentacao estilo">
+    <el-row >
+
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        
+        <div class="textos">
+          <h1>Teste</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            eu placerat felis, quis lobortis nisi. Nunc ut interdum libero.
+            Fusce posuere vel tortor sed maximus.
+          </p>
+          </div>
+          </el-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <div class="textos">
+          <h1>Teste</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            eu placerat felis, quis lobortis nisi. Nunc ut interdum libero.
+            Fusce posuere vel tortor sed maximus.
+          </p>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
+      
+  </div>
 </template>
 
 <script>
@@ -37,18 +94,42 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.apresentacao {
-  margin: 0 auto;
-  min-height: 93.8vh;
+
+.estilo{
+margin: 0 auto;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  background-color: #2a7ae4;
   position: relative;
+}
+.mapa{
+  background-color: #fff;
+  .textos {
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    color: #1D3557;
 
+    h1 {
+      font-size: 50px;
+      margin-bottom: 1rem;
+      color: #1D3557;
+    }
 
+    p {
+      text-align: justify;
+      font-size: 30px;
+      font-weight: 400;
+      color: #1D3557;
+    }
+}
+}
+
+.apresentacao {
+  background-color: #2a7ae4;
 
   .textos {
     padding: 10px;

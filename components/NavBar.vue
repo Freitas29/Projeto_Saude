@@ -125,11 +125,15 @@ export default {
 <style lang="scss">
 ul{
   list-style: none;
+  position: fixed;
 }
 $primary: #1d3557;
 
 .nav {
   background-color: $primary;
+position: fixed;
+    z-index: 1000;
+    width: 100%;
 
   li {
     color: #ffffff !important;
