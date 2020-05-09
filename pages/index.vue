@@ -1,35 +1,34 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        Saude
-      </h1>
-      <h2 class="subtitle">
-        My priceless Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div class="apresentacao">
+    <el-row >
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <div class="textos">
+          <h1>Teste</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            eu placerat felis, quis lobortis nisi. Nunc ut interdum libero.
+            Fusce posuere vel tortor sed maximus.
+          </p>
+        </div>
+      </el-col>
+
+      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <lottie-player
+          src="https://assets10.lottiefiles.com/packages/lf20_ebikt2.json"
+          background="transparent"
+          speed="1"
+          style="width: 100%; height: 40vh;"
+          loop
+          autoplay
+        />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
+import '@lottiefiles/lottie-player'
 
 export default {
   components: {
@@ -37,36 +36,65 @@ export default {
   }
 }
 </script>
-
-<style>
-.container {
+<style lang="scss" scoped>
+.apresentacao {
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 93.8vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   text-align: center;
+  background-color: #2a7ae4;
+  position: relative;
+
+
+
+  .textos {
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    color: #fff;
+
+    h1 {
+      font-size: 50px;
+      margin-bottom: 1rem;
+      color: #d4f5ff;
+    }
+
+    p {
+      text-align: justify;
+      font-size: 30px;
+      font-weight: 400;
+      color: #d4f5ff;
+    }
+  }
+
+  .subtitle {
+    font-weight: 300;
+    font-size: 42px;
+    color: #526488;
+    word-spacing: 5px;
+    padding-bottom: 15px;
+  }
+
+  .links {
+    padding-top: 15px;
+  }
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+@media only screen and (max-width: 600px) {
+  .textos {
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+    padding: 10px;
 
-.links {
-  padding-top: 15px;
+    h1{
+      font-size: 30px !important;
+    }
+
+    p{
+      font-size: 18px !important;
+    }
+  }
 }
 </style>
