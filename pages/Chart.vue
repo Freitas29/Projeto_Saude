@@ -1,11 +1,13 @@
 <template>
   <div>
     <transition name="fade">
-      <Brazil v-if="!loading || !hasResult" />
+      <Brazil v-if="!loading" />
     </transition>
 
     <transition name="fade">
-      <Table :tableData="rows" v-if="!loading && hasResult" />
+      <div v-if="!loading && hasResult">
+        <Table :tableData="rows" />
+      </div>
     </transition>
 
     <transition name="fade">
@@ -60,7 +62,7 @@ export default {
       loading: false,
       rows: [],
       hasResult: false,
-      pageToken: '',
+      pageToken: ''
     }
   },
   mounted() {
@@ -75,6 +77,15 @@ export default {
     })
   },
   methods: {
+    groupBy(arr, fn) {
+      return arr
+        .map(typeof fn === 'function' ? fn : val => val[fn])
+        .reduce((acc, val, i) => {
+          acc[val] = (acc[val] || []).concat(arr[i])
+          return acc
+        }, {})
+    },
+
     authenticate() {
       const vmo = this
 
@@ -88,10 +99,9 @@ export default {
           async function(resp) {
             const { access_token } = resp.getAuthResponse()
 
-            const perPage = 50
+            // const perPage = 400
 
-
-            const url = `https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/BENEFICIARIOS_${vmo.stateSelected.initials}/data?maxResults=${perPage}&pageToken=${vmo.pageToken}&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ`
+            const url = `https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/BENEFICIARIOS_${vmo.stateSelected.initials}/data?&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ`
 
             const response = await vmo.$axios.get(url, {
               headers: {
@@ -104,8 +114,7 @@ export default {
               data: { rows, pageToken }
             } = response
 
-            vmo.rows = rows
-            vmo.pageToken = pageToken
+            vmo.rows = vmo.groupBy(rows, (item) => item.f[1].v)
             vmo.loading = false
           },
           function(err) {
@@ -138,7 +147,7 @@ export default {
   },
   watch: {
     rows(value) {
-      if (value.length > 0) {
+      if (Object.keys(value).length > 0) {
         this.hasResult = true
       } else {
         this.hasResult = false
