@@ -32,7 +32,7 @@
 
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <lottie-player
-          src="https://assets10.lottiefiles.com/packages/lf20_ebikt2.json"
+          src="https://assets5.lottiefiles.com/packages/lf20_3GdFaM.json"
           background="transparent"
           speed="1"
           style="width: 100%; height: 40vh;"
@@ -57,6 +57,15 @@
     <el-row >
 
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+
+        <lottie-player
+          src="https://assets9.lottiefiles.com/packages/lf20_tnrzlN.json"
+          background="transparent"
+          speed="1"
+          style="width: 100%; height: 40vh;"
+          loop
+          autoplay
+        />
         
         <div class="textos">
           <h1>Teste</h1>
@@ -69,6 +78,15 @@
           </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <div class="textos">
+          <lottie-player
+          src="https://assets6.lottiefiles.com/packages/lf20_pXBLg7.json"
+          background="transparent"
+          speed="1"
+          style="width: 100%; height: 40vh;"
+          loop
+          autoplay
+        />
+          
           <h1>Teste</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse

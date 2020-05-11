@@ -281,6 +281,7 @@ img {
     align-items: center;
     justify-content: flex-end;
     background-color: transparent !important;
+    position: relative;
 
     li{
       &:hover {
