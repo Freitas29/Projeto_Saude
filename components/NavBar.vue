@@ -97,28 +97,16 @@
 </template>
 
 <script>
+import mobileScreen from '../mixins/mobileScreen'
+
 export default {
   name: 'NavBar',
   data() {
     return {
-      isMobile: false,
       show: false
     }
   },
-  mounted() {
-    window.addEventListener('resize', this.handleScreen)
-    this.handleScreen()
-  },
-  methods: {
-    handleScreen() {
-      if (window.innerWidth <= 600) {
-        this.isMobile = true
-        return
-      }
-
-      this.isMobile = false
-    }
-  }
+  mixins: [mobileScreen],
 }
 </script>
 

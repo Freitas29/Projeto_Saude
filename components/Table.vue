@@ -10,7 +10,7 @@
     >
       >
       <el-table-column type="selection" width="55" />
-      <el-table-column label="Seguradora">
+      <el-table-column label="Seguradora" :width="isMobile ? 650 : 'auto'">
         <template slot-scope="scope">
           <i class="el-icon-office-building"></i>
           <span style="margin-left: 10px">{{ scope.row.f[0].v }}</span>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import mobileScreen from '../mixins/mobileScreen'
+
 export default {
   name: 'TableSeguradora',
   props: {
@@ -56,6 +58,7 @@ export default {
       required: true
     }
   },
+  mixins: [mobileScreen],
   data() {
     return {
       county: [],
