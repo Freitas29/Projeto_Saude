@@ -367,6 +367,11 @@ img {
   }
 }
 
+
+.el-menu.el-menu--horizontal {
+  border: none;
+}
+
 // Animation Menu Icon
 
 .slide-fade-enter-active,
