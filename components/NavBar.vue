@@ -2,7 +2,7 @@
   <el-row class="nav">
     <el-col :span="4" class="navbar__logo-box">
       <NuxtLink to="/">
-        <img src="~/assets/ea.jpg" alt="" class="navbar__logo" />
+        <img src="~/assets/pingo.png" alt="" class="navbar__logo" />
       </NuxtLink>
     </el-col>
     <el-col :span="20" class="navbar__menu-box" v-if="!isMobile">
