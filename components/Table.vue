@@ -35,7 +35,7 @@
       stripe
       @current-change="handleRowClick"
       v-else
-      v-bind:key="2"
+      :key="2"
     >
       <el-table-column label="Município">
         <template slot-scope="scope">
@@ -44,6 +44,9 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-button class="float" :key="3" @click="isInsuranceCompany = false" v-if="isInsuranceCompany" icon="el-icon-arrow-left">Voltar para municipios</el-button>
+
   </transition-group>
 </template>
 
@@ -75,7 +78,6 @@ export default {
     },
     handleRowClick(value) {
       this.isInsuranceCompany = true
-      debugger
       this.tableInsuranceCompany = Object.entries(this.tableData)
         .filter(county => county[0] === value)
         .flat()[1]
@@ -89,3 +91,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .float{
+    position: fixed;
+    bottom: 25px;
+    right: 15px;
+  }
+</style>

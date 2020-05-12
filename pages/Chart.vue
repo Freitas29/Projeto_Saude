@@ -114,7 +114,7 @@ export default {
               data: { rows, pageToken }
             } = response
 
-            vmo.rows = vmo.groupBy(rows, (item) => item.f[1].v)
+            vmo.rows = vmo.groupBy(rows, item => item.f[1].v)
             vmo.loading = false
           },
           function(err) {
