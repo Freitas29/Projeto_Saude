@@ -1,5 +1,5 @@
 <template>
-  <transition-group id="tableMunicipio" name="fade" tag="div" mode="out-in" class="max-chart">
+  <transition-group id="table" name="fade" tag="div" mode="out-in" class="max-chart">
     <el-table
       :data="tableInsuranceCompany"
       style="width: 100%"
@@ -46,7 +46,7 @@
       </el-table-column>
     </el-table>
 
-    <el-button class="float" :key="3" @click="isInsuranceCompany = false" v-if="isInsuranceCompany" icon="el-icon-arrow-left">Voltar para municipios</el-button>
+    <el-button class="float" :key="3" @click="backToCounty" v-if="isInsuranceCompany" icon="el-icon-arrow-left">Voltar para municipios</el-button>
 
   </transition-group>
 </template>
@@ -87,6 +87,13 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    backToCounty(){
+      this.isInsuranceCompany = false
+      const firstScrollTo = scroller()
+
+      firstScrollTo('#table')
+
     }
   },
   mounted() {
@@ -94,10 +101,14 @@ export default {
   },
   watch: {
     county(){
-      debugger
-              const firstScrollTo = scroller()
+        const firstScrollTo = scroller()
 
-        firstScrollTo('#tableMunicipio')
+        firstScrollTo('#table')
+    },
+    isInsuranceCompany(){
+      const firstScrollTo = scroller()
+
+      firstScrollTo('#table')
     }
   }
 }
