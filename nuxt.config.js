@@ -35,7 +35,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/scrollReveal.js'
   ],
   /*
   ** Nuxt.js dev-modules
