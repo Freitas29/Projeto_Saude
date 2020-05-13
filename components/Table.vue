@@ -1,5 +1,5 @@
 <template>
-  <transition-group name="fade" tag="div" mode="out-in" class="max-chart">
+  <transition-group id="tableMunicipio" name="fade" tag="div" mode="out-in" class="max-chart">
     <el-table
       :data="tableInsuranceCompany"
       style="width: 100%"
@@ -53,6 +53,8 @@
 
 <script>
 import mobileScreen from '../mixins/mobileScreen'
+import { scroller } from 'vue-scrollto/src/scrollTo'
+
 
 export default {
   name: 'TableSeguradora',
@@ -89,6 +91,14 @@ export default {
   },
   mounted() {
     this.showCount()
+  },
+  watch: {
+    county(){
+      debugger
+              const firstScrollTo = scroller()
+
+        firstScrollTo('#tableMunicipio')
+    }
   }
 }
 </script>

@@ -7,14 +7,14 @@
     </el-col>
     <el-col :span="20" class="navbar__menu-box" v-if="!isMobile">
       <ul class="el-menu el-menu--horizontal navbar__menu">
-        <li class="el-menu-item">O que somos</li>
+        <li class="el-menu-item" v-scroll-to="'#oQueSomos'">O que somos</li>
 
-        <NuxtLink to="/chart">
-          <li class="el-menu-item">
+        
+          <li class="el-menu-item" v-scroll-to="'#nossoProduto'">
             Nosso produto
           </li>
-        </NuxtLink>
-        <li class="el-menu-item">Diferencial</li>
+        
+        <li class="el-menu-item" v-scroll-to="'#diferencial'">Diferencial</li>
       </ul>
     </el-col>
 
@@ -60,33 +60,27 @@
             v-if="show"
           >
             <ul class="dropdown__menu-nav">
-              <li class="dropdown__menu-item">
-                <NuxtLink to="/chart">
+              <li class="dropdown__menu-item" v-scroll-to="'#oQueSomos'">
                   <a href="#" class="dropdown__menu-link" title="Account">
                     <div class="dropdown__menu-svg">
                     </div>
                       <div class="dropdown__menu-text">O que somos</div>
                   </a>
-                </NuxtLink>
               </li>
-              <li class="dropdown__menu-item">
-                <NuxtLink to="/chart">
+              <li class="dropdown__menu-item" v-scroll-to="'#nossoProduto'">
                   <a href="#" class="dropdown__menu-link" title="Account">
                     <div class="dropdown__menu-svg">
                     </div>
-                      <div class="dropdown__menu-text">Nosso produto</div>
+                      <div class="dropdown__menu-text" >Nosso produto</div>
                     
                   </a>
-                </NuxtLink>
               </li>
-              <li class="dropdown__menu-item">
-                <NuxtLink to="/chart">
+              <li class="dropdown__menu-item" v-scroll-to="'#diferencial'">
                   <a href="#" class="dropdown__menu-link" title="Account">
                     <div class="dropdown__menu-svg">
                     </div>
                       <div class="dropdown__menu-text">Diferencial</div>
                   </a>
-                </NuxtLink>
               </li>
             </ul>
           </div>
