@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="apresentacao estilo" id="oQueSomos">
+    <div class="apresentacao estilo" id="oQueSomos" >
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-          <div class="textos">
+          <div class="textos" v-scroll-reveal.reset="{ delay: 100 }">
             <h1>Teste</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -13,7 +13,7 @@
           </div>
         </el-col>
 
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-scroll-reveal.reset="{ delay: 300 }">
           <lottie-player
             src="https://assets10.lottiefiles.com/packages/lf20_ebikt2.json"
             background="transparent"
@@ -28,8 +28,9 @@
 
     <div class="mapa estilo" id="nossoProduto">
       <el-row>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" >
           <lottie-player
+          v-scroll-reveal.reset="{ delay: 150 }"
             src="https://assets5.lottiefiles.com/packages/lf20_3GdFaM.json"
             background="transparent"
             speed="1"
@@ -38,8 +39,8 @@
             autoplay
           />
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-          <div class="textos">
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" >
+          <div class="textos" v-scroll-reveal.reset="{ delay: 300 }">
             <h1>Teste</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -55,6 +56,7 @@
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <lottie-player
+            v-scroll-reveal.reset="{ delay: 150 }"
             src="https://assets9.lottiefiles.com/packages/lf20_tnrzlN.json"
             background="transparent"
             speed="1"
@@ -63,9 +65,9 @@
             autoplay
           />
 
-          <div class="textos">
-            <h1>Teste</h1>
-            <p>
+          <div class="textos" >
+            <h1 v-scroll-reveal.reset="{ delay: 200 }">Teste</h1>
+            <p v-scroll-reveal.reset="{ delay: 250 }">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
               interdum libero. Fusce posuere vel tortor sed maximus.
@@ -75,6 +77,7 @@
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos">
             <lottie-player
+            v-scroll-reveal.reset="{ delay: 150 }"
               src="https://assets6.lottiefiles.com/packages/lf20_pXBLg7.json"
               background="transparent"
               speed="1"
@@ -83,8 +86,8 @@
               autoplay
             />
 
-            <h1>Teste</h1>
-            <p>
+            <h1 v-scroll-reveal.reset="{ delay: 200 }">Teste</h1>
+            <p v-scroll-reveal.reset="{ delay: 250 }">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
               interdum libero. Fusce posuere vel tortor sed maximus.
