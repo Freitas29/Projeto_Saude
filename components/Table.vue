@@ -40,7 +40,7 @@
     >
       <el-table-column label="Município">
         <template slot-scope="scope">
-          <i class="el-icon-office-building"></i>
+          <i class="el-icon-location-information"></i>
           <span style="margin-left: 10px">{{ scope.row }}</span>
         </template>
       </el-table-column>
