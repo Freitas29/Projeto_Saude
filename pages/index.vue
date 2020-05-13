@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="apresentacao estilo">
+    <div class="apresentacao estilo" id="oQueSomos">
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos">
@@ -26,7 +26,7 @@
       </el-row>
     </div>
 
-    <div class="mapa estilo">
+    <div class="mapa estilo" id="nossoProduto">
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <lottie-player
@@ -51,7 +51,7 @@
       </el-row>
     </div>
 
-    <div class="apresentacao estilo">
+    <div class="apresentacao estilo" id="diferencial">
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <lottie-player
