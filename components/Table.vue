@@ -1,5 +1,5 @@
 <template>
-  <transition-group name="fade" tag="div" mode="out-in">
+  <transition-group name="fade" tag="div" mode="out-in" class="max-chart">
     <el-table
       :data="tableInsuranceCompany"
       style="width: 100%"
@@ -30,6 +30,7 @@
       </el-table-column>
     </el-table>
     <el-table
+      class="max-chart"
       :data="county"
       style="width: 100%"
       stripe
@@ -96,5 +97,8 @@ export default {
     position: fixed;
     bottom: 25px;
     right: 15px;
+  }
+  .max-chart{
+    width: 100%;
   }
 </style>

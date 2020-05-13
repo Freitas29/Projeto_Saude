@@ -1,13 +1,11 @@
 <template>
-  <div>
+  <div class="chart-page">
     <transition name="fade">
       <Brazil v-if="!loading" />
     </transition>
 
-    <transition name="fade">
-      <div v-if="!loading && hasResult">
-        <Table :tableData="rows" />
-      </div>
+    <transition name="fade" class="max-chart">
+      <Table :tableData="rows" v-if="!loading && hasResult" />
     </transition>
 
     <transition name="fade">
@@ -160,7 +158,22 @@ export default {
 <style>
 .chart {
   width: 100%;
-  height: 500px;
+  height: 90vh;
+  position: relative;
+  margin-top: 10vh;
+}
+
+.max-chart {
+  width: 100%;
+}
+
+.chart-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .animation-loading {
