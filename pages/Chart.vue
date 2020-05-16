@@ -1,11 +1,11 @@
 <template>
   <div class="chart-page">
     <transition name="fade">
-      <Brazil v-if="!loading" />
+      <Brazil v-if="!loading || chartGrowthData.length <= 0" />
     </transition>
 
     <transition name="fade" class="max-chart">
-      <Table :tableData="rows" v-if="!loading && hasResult" />
+      <Table :tableData="rows" v-if="!loading && hasResult && chartGrowthData.length <= 0" />
     </transition>
 
     <transition name="fade">
@@ -23,6 +23,7 @@
 
     <Modal 
       :modalVisible="chartGrowthData.length > 0"
+      :dataChart="prospChart"
     />
 
     <el-dialog
@@ -48,6 +49,7 @@ import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
 import Modal from '~/components/ModalChartGrowth'
+import { groupBy } from '../shared/utils'
 
 export default {
   name: 'Chart',
@@ -68,7 +70,8 @@ export default {
       rows: [],
       hasResult: false,
       pageToken: '',
-      chartGrowthData: []
+      chartGrowthData: [],
+      prospChart: []
     }
   },
   mounted() {
@@ -84,14 +87,6 @@ export default {
     })
   },
   methods: {
-    groupBy(arr, fn) {
-      return arr
-        .map(typeof fn === 'function' ? fn : val => val[fn])
-        .reduce((acc, val, i) => {
-          acc[val] = (acc[val] || []).concat(arr[i])
-          return acc
-        }, {})
-    },
     async handleInsuranceCompany(insuraceCompanies){
       const nameInsuraceCompanies = insuraceCompanies.map(insurace => insurace.f[0].v)
 
@@ -104,6 +99,27 @@ export default {
       })
 
       this.chartGrowthData = data
+      this.renderChartGrowth()
+    },
+    renderChartGrowth(){
+      const dates = this.chartGrowthData.map(t => t.DT_REFERENCIA.value)
+
+      var distict  = function(value, index, self) {
+        return self.indexOf(value) === index
+      }
+
+      const datasets = groupBy(this.chartGrowthData, data => data.NM_RAZAO_SOCIAL)
+ 
+      const datasetChart = Object.entries(datasets).map(data => ({
+        label: data[0],
+        backgroundColor: '#f87979',
+        data: data[1].map(valor => valor.f0_)
+      }))
+
+      this.prospChart = {
+        labels: dates.filter(distict),
+        data: datasetChart 
+      }
     },
     authenticate() {
       const vmo = this
@@ -133,7 +149,7 @@ export default {
               data: { rows, pageToken }
             } = response
 
-            vmo.rows = vmo.groupBy(rows, item => item.f[1].v)
+            vmo.rows = groupBy(rows, item => item.f[1].v)
             vmo.loading = false
           },
           function(err) {
