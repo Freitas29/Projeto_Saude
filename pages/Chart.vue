@@ -65,6 +65,7 @@ export default {
   },
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
+    this.$root.$on("insuranceCompanySelected", this.handleInsuranceCompany)
 
     gapi.load('client:auth2', function() {
       gapi.auth2.init({
@@ -83,7 +84,9 @@ export default {
           return acc
         }, {})
     },
-
+    handleInsuranceCompany(insuraceCompanies){
+      debugger
+    },
     authenticate() {
       const vmo = this
 

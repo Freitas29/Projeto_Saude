@@ -45,8 +45,9 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button class="float" :key="4" @click="backToCounty" v-if="isInsuranceCompany" icon="el-icon-arrow-left">Voltar para municipios</el-button>
+    <el-button type="primary" class="float-chart" :key="3" @click="search" v-if="isInsuranceCompany && multipleSelection.length > 0" icon="el-icon-data-line">Predição</el-button>
 
-    <el-button class="float" :key="3" @click="backToCounty" v-if="isInsuranceCompany" icon="el-icon-arrow-left">Voltar para municipios</el-button>
 
   </transition-group>
 </template>
@@ -88,6 +89,9 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
+    search(){
+      this.$root.$emit('insuranceCompanySelected', this.multipleSelection)
+    },
     backToCounty(){
       this.isInsuranceCompany = false
       const firstScrollTo = scroller()
@@ -118,6 +122,12 @@ export default {
     position: fixed;
     bottom: 25px;
     right: 15px;
+  }
+
+  .float-chart{
+    position: fixed;
+    right: 15px;
+    bottom: 12%;
   }
   .max-chart{
     width: 100%;
