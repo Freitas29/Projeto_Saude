@@ -1,11 +1,11 @@
 <template>
   <div class="chart-page">
     <transition name="fade">
-      <Brazil v-if="!loading || chartGrowthData.length <= 0" />
+      <Brazil v-if="!loading" />
     </transition>
 
     <transition name="fade" class="max-chart">
-      <Table :tableData="rows" v-if="!loading && hasResult && chartGrowthData.length <= 0" />
+      <Table :tableData="rows" v-if="!loading && hasResult" />
     </transition>
 
     <transition name="fade">
@@ -21,10 +21,7 @@
       </div>
     </transition>
 
-    <Modal 
-      :modalVisible="chartGrowthData.length > 0"
-      :dataChart="prospChart"
-    />
+    <Modal :modalVisible="chartGrowthData.length > 0" :dataChart="prospChart" />
 
     <el-dialog
       title="Filtro"
@@ -50,6 +47,7 @@ import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
 import Modal from '~/components/ModalChartGrowth'
 import { groupBy } from '../shared/utils'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Chart',
@@ -66,7 +64,6 @@ export default {
     return {
       dialogVisible: false,
       stateSelected: {},
-      loading: false,
       rows: [],
       hasResult: false,
       pageToken: '',
@@ -74,9 +71,10 @@ export default {
       prospChart: []
     }
   },
+  computed: mapState(['insuranceCompanySelected', 'loading']),
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
-    this.$root.$on("insuranceCompanySelected", this.handleInsuranceCompany)
+    this.$root.$on('insuranceCompanySelected', this.handleInsuranceCompany)
 
     gapi.load('client:auth2', function() {
       gapi.auth2.init({
@@ -86,30 +84,45 @@ export default {
       })
     })
   },
+  created() {
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'changeinsuranceCompanySelected') {
+        debugger
+        this.handleInsuranceCompany(state.insuranceCompanySelected)
+      }
+    })
+  },
   methods: {
-    async handleInsuranceCompany(insuraceCompanies){
-      const nameInsuraceCompanies = insuraceCompanies.map(insurace => insurace.f[0].v)
+    async handleInsuranceCompany(companies) {
+      this.$store.commit('changeLoading', true)
 
-      const { data } = await this.$axios.get("http://localhost:3001/chart", {
+      const nameInsuraceCompanies = companies.map(insurace => insurace.f[0].v)
+
+      const { data } = await this.$axios.get('http://localhost:3001/chart', {
         params: {
           seguradoras: nameInsuraceCompanies,
           uf: this.stateSelected.initials,
-          municipio: insuraceCompanies[0].f[1].v
+          municipio: companies[0].f[1].v
         }
       })
 
       this.chartGrowthData = data
       this.renderChartGrowth()
+
+      this.$store.commit('changeLoading', false)
     },
-    renderChartGrowth(){
+    renderChartGrowth() {
       const dates = this.chartGrowthData.map(t => t.DT_REFERENCIA.value)
 
-      var distict  = function(value, index, self) {
+      var distict = function(value, index, self) {
         return self.indexOf(value) === index
       }
 
-      const datasets = groupBy(this.chartGrowthData, data => data.NM_RAZAO_SOCIAL)
- 
+      const datasets = groupBy(
+        this.chartGrowthData,
+        data => data.NM_RAZAO_SOCIAL
+      )
+
       const datasetChart = Object.entries(datasets).map(data => ({
         label: data[0],
         backgroundColor: '#f87979',
@@ -118,13 +131,13 @@ export default {
 
       this.prospChart = {
         labels: dates.filter(distict),
-        data: datasetChart 
+        data: datasetChart
       }
     },
     authenticate() {
       const vmo = this
 
-      this.loading = true
+      this.$store.commit('changeLoading', true)
       return gapi.auth2
         .getAuthInstance()
         .signIn({
@@ -150,10 +163,10 @@ export default {
             } = response
 
             vmo.rows = groupBy(rows, item => item.f[1].v)
-            vmo.loading = false
+            vmo.$store.commit('changeLoading', false)
           },
           function(err) {
-            vmo.loading = false
+            vmo.$store.commit('changeLoading', false)
           }
         )
     },
