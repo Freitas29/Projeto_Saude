@@ -20,6 +20,11 @@
         />
       </div>
     </transition>
+
+    <Modal 
+      :modalVisible="chartGrowthData.length > 0"
+    />
+
     <el-dialog
       title="Filtro"
       :visible.sync="dialogVisible"
@@ -42,6 +47,7 @@
 import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
+import Modal from '~/components/ModalChartGrowth'
 
 export default {
   name: 'Chart',
@@ -51,7 +57,8 @@ export default {
   },
   components: {
     Brazil,
-    Table
+    Table,
+    Modal
   },
   data() {
     return {
@@ -60,7 +67,8 @@ export default {
       loading: false,
       rows: [],
       hasResult: false,
-      pageToken: ''
+      pageToken: '',
+      chartGrowthData: []
     }
   },
   mounted() {
@@ -84,8 +92,18 @@ export default {
           return acc
         }, {})
     },
-    handleInsuranceCompany(insuraceCompanies){
-      debugger
+    async handleInsuranceCompany(insuraceCompanies){
+      const nameInsuraceCompanies = insuraceCompanies.map(insurace => insurace.f[0].v)
+
+      const { data } = await this.$axios.get("http://localhost:3001/chart", {
+        params: {
+          seguradoras: nameInsuraceCompanies,
+          uf: this.stateSelected.initials,
+          municipio: insuraceCompanies[0].f[1].v
+        }
+      })
+
+      this.chartGrowthData = data
     },
     authenticate() {
       const vmo = this
