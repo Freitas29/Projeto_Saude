@@ -20,6 +20,9 @@
         />
       </div>
     </transition>
+
+    <Modal :dataChart="prospChart" />
+
     <el-dialog
       title="Filtro"
       :visible.sync="dialogVisible"
@@ -42,6 +45,9 @@
 import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
+import Modal from '~/components/ModalChartGrowth'
+import { groupBy } from '../shared/utils'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Chart',
@@ -51,20 +57,23 @@ export default {
   },
   components: {
     Brazil,
-    Table
+    Table,
+    Modal
   },
   data() {
     return {
       dialogVisible: false,
       stateSelected: {},
-      loading: false,
       rows: [],
       hasResult: false,
-      pageToken: ''
+      pageToken: '',
+      prospChart: []
     }
   },
+  computed: mapState(['insuranceCompanySelected', 'loading', 'chartGrowthData']),
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
+    this.$root.$on('insuranceCompanySelected', this.handleInsuranceCompany)
 
     gapi.load('client:auth2', function() {
       gapi.auth2.init({
@@ -74,20 +83,60 @@ export default {
       })
     })
   },
+  created() {
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'changeInsuranceCompanySelected') {
+        debugger
+        this.handleInsuranceCompany(state.insuranceCompanySelected)
+      }
+    })
+  },
   methods: {
-    groupBy(arr, fn) {
-      return arr
-        .map(typeof fn === 'function' ? fn : val => val[fn])
-        .reduce((acc, val, i) => {
-          acc[val] = (acc[val] || []).concat(arr[i])
-          return acc
-        }, {})
-    },
+    async handleInsuranceCompany(companies) {
+      this.$store.commit('changeLoading', true)
 
+      const nameInsuraceCompanies = companies.map(insurace => insurace.f[0].v)
+
+      const { data } = await this.$axios.get('http://localhost:3001/chart', {
+        params: {
+          seguradoras: nameInsuraceCompanies,
+          uf: this.stateSelected.initials,
+          municipio: companies[0].f[1].v
+        }
+      })
+
+      this.$store.commit('changeChartGrowthData',data)
+      this.renderChartGrowth()
+
+      this.$store.commit('changeLoading', false)
+    },
+    renderChartGrowth() {
+      const dates = this.chartGrowthData.map(t => t.DT_REFERENCIA.value)
+
+      var distict = function(value, index, self) {
+        return self.indexOf(value) === index
+      }
+
+      const datasets = groupBy(
+        this.chartGrowthData,
+        data => data.NM_RAZAO_SOCIAL
+      )
+
+      const datasetChart = Object.entries(datasets).map(data => ({
+        label: data[0],
+        backgroundColor: '#f87979',
+        data: data[1].map(valor => valor.f0_)
+      }))
+
+      this.prospChart = {
+        labels: dates.filter(distict),
+        data: datasetChart
+      }
+    },
     authenticate() {
       const vmo = this
 
-      this.loading = true
+      this.$store.commit('changeLoading', true)
       return gapi.auth2
         .getAuthInstance()
         .signIn({
@@ -112,11 +161,11 @@ export default {
               data: { rows, pageToken }
             } = response
 
-            vmo.rows = vmo.groupBy(rows, item => item.f[1].v)
-            vmo.loading = false
+            vmo.rows = groupBy(rows, item => item.f[1].v)
+            vmo.$store.commit('changeLoading', false)
           },
           function(err) {
-            vmo.loading = false
+            vmo.$store.commit('changeLoading', false)
           }
         )
     },
