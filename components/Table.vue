@@ -90,7 +90,7 @@ export default {
       this.multipleSelection = val
     },
     search(){
-      this.$store.commit('changeinsuranceCompanySelected', this.multipleSelection)
+      this.$store.commit('changeInsuranceCompanySelected', this.multipleSelection)
     },
     backToCounty(){
       this.isInsuranceCompany = false

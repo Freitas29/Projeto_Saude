@@ -21,7 +21,7 @@
       </div>
     </transition>
 
-    <Modal :modalVisible="chartGrowthData.length > 0" :dataChart="prospChart" />
+    <Modal :dataChart="prospChart" />
 
     <el-dialog
       title="Filtro"
@@ -67,11 +67,10 @@ export default {
       rows: [],
       hasResult: false,
       pageToken: '',
-      chartGrowthData: [],
       prospChart: []
     }
   },
-  computed: mapState(['insuranceCompanySelected', 'loading']),
+  computed: mapState(['insuranceCompanySelected', 'loading', 'chartGrowthData']),
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
     this.$root.$on('insuranceCompanySelected', this.handleInsuranceCompany)
@@ -86,7 +85,7 @@ export default {
   },
   created() {
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'changeinsuranceCompanySelected') {
+      if (mutation.type === 'changeInsuranceCompanySelected') {
         debugger
         this.handleInsuranceCompany(state.insuranceCompanySelected)
       }
@@ -106,7 +105,7 @@ export default {
         }
       })
 
-      this.chartGrowthData = data
+      this.$store.commit('changeChartGrowthData',data)
       this.renderChartGrowth()
 
       this.$store.commit('changeLoading', false)

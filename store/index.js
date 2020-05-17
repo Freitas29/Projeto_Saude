@@ -1,6 +1,7 @@
 export const state = () => ({
     loading: false,
-    insuranceCompanySelected: []
+    insuranceCompanySelected: [],
+    chartGrowthData: []
 })
 
 export const mutations = {
@@ -8,8 +9,12 @@ export const mutations = {
         state.loading = payload
     },
 
-    changeinsuranceCompanySelected(state, payload){
+    changeInsuranceCompanySelected(state, payload){
         state.insuranceCompanySelected = payload
+    },
+
+    changeChartGrowthData(state, payload){
+        state.chartGrowthData = payload
     }
 }
 
@@ -18,7 +23,12 @@ export const actions = {
         dispatch('changeLoading', payload)
     },
 
-    changeinsuranceCompanySelected({ dispatch }, payload){
-        dispatch('changeinsuranceCompanySelected', payload)
+    changeInsuranceCompanySelected({ dispatch }, payload){
+        dispatch('changeInsuranceCompanySelected', payload)
+    },
+
+    changeChartGrowthData({ dispatch }, payload){
+        dispatch('changeChartGrowthData', payload)
     }
+
 }

@@ -17,16 +17,32 @@ import { sleep } from '../shared/utils'
 export default {
   extends: Line,
   props: {
-    modalVisible: false,
     dataChart: {}
+  },
+  data(){
+    return{
+      modalVisible: false,
+    }
+  },
+  created(){
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'changeChartGrowthData') {
+        this.handleGrowth(state.chartGrowthData)
+      }
+    })
+  },
+  methods: {
+    handleGrowth(data){
+      debugger
+      this.modalVisible = data.length > 0 ? true : false
+    } 
   },
   watch: {
     async dataChart(value) {
-      this.modalVisible = true
+      this.modalVisible = true;
 
       await sleep(1000)
 
-      debugger
       this.renderChart(
         {
           labels: value.labels,
