@@ -55,6 +55,7 @@
 <script>
 import mobileScreen from '../mixins/mobileScreen'
 import { scroller } from 'vue-scrollto/src/scrollTo'
+import { sleep } from '~/shared/utils'
 
 
 export default {
@@ -104,14 +105,18 @@ export default {
     this.showCount()
   },
   watch: {
-    county(){
+    async county(){
         const firstScrollTo = scroller()
+
+        await sleep(250)
 
         firstScrollTo('#table')
     },
-    isInsuranceCompany(){
+    async isInsuranceCompany(){
       const firstScrollTo = scroller()
 
+      await sleep(250)
+      
       firstScrollTo('#table')
     }
   }
