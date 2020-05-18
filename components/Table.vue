@@ -1,5 +1,11 @@
 <template>
-  <transition-group id="table" name="fade" tag="div" mode="out-in" class="max-chart">
+  <transition-group
+    id="table"
+    name="fade"
+    tag="div"
+    mode="out-in"
+    class="max-chart"
+  >
     <el-table
       :data="tableInsuranceCompany"
       style="width: 100%"
@@ -8,7 +14,6 @@
       :key="1"
       @selection-change="handleSelectionChange"
     >
-      >
       <el-table-column type="selection" width="55" />
       <el-table-column label="Seguradora" :width="isMobile ? 650 : 'auto'">
         <template slot-scope="scope">
@@ -31,7 +36,7 @@
     </el-table>
     <el-table
       class="max-chart"
-      :data="county"
+      :data="county.filter(data => !searchCounty || data.toLowerCase().includes(searchCounty.toLowerCase()))"
       style="width: 100%"
       stripe
       @current-change="handleRowClick"
@@ -44,11 +49,33 @@
           <span style="margin-left: 10px">{{ scope.row }}</span>
         </template>
       </el-table-column>
+      <el-table-column align="right">
+          <template slot="header" slot-scope="scope">
+            <el-input
+              v-model="searchCounty"
+              size="mini"
+              placeholder="Type to search"
+            />
+          </template>
+        </el-table-column>
     </el-table>
-    <el-button class="float" :key="4" @click="backToCounty" v-if="isInsuranceCompany" icon="el-icon-arrow-left">Voltar para municipios</el-button>
-    <el-button type="primary" class="float-chart" :key="3" @click="search" v-if="isInsuranceCompany && multipleSelection.length > 0" icon="el-icon-data-line">Predição</el-button>
-
-
+    <el-button
+      class="float"
+      :key="4"
+      @click="backToCounty"
+      v-if="isInsuranceCompany"
+      icon="el-icon-arrow-left"
+      >Voltar para municipios</el-button
+    >
+    <el-button
+      type="primary"
+      class="float-chart"
+      :key="3"
+      @click="search"
+      v-if="isInsuranceCompany && multipleSelection.length > 0"
+      icon="el-icon-data-line"
+      >Predição</el-button
+    >
   </transition-group>
 </template>
 
@@ -56,7 +83,6 @@
 import mobileScreen from '../mixins/mobileScreen'
 import { scroller } from 'vue-scrollto/src/scrollTo'
 import { sleep } from '~/shared/utils'
-
 
 export default {
   name: 'TableSeguradora',
@@ -72,7 +98,9 @@ export default {
       county: [],
       isInsuranceCompany: false,
       tableInsuranceCompany: [],
-      multipleSelection: []
+      multipleSelection: [],
+      searchInsuranceCompany: '',
+      searchCounty: '',
     }
   },
   methods: {
@@ -90,51 +118,53 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    search(){
-      this.$store.commit('changeInsuranceCompanySelected', this.multipleSelection)
+    search() {
+      this.$store.commit(
+        'changeInsuranceCompanySelected',
+        this.multipleSelection
+      )
     },
-    backToCounty(){
+    backToCounty() {
       this.isInsuranceCompany = false
       const firstScrollTo = scroller()
 
       firstScrollTo('#table')
-
     }
   },
   mounted() {
     this.showCount()
   },
   watch: {
-    async county(){
-        const firstScrollTo = scroller()
-
-        await sleep(250)
-
-        firstScrollTo('#table')
-    },
-    async isInsuranceCompany(){
+    async county() {
       const firstScrollTo = scroller()
 
       await sleep(250)
-      
+
+      firstScrollTo('#table')
+    },
+    async isInsuranceCompany() {
+      const firstScrollTo = scroller()
+
+      await sleep(250)
+
       firstScrollTo('#table')
     }
   }
 }
 </script>
 <style scoped>
-  .float{
-    position: fixed;
-    bottom: 25px;
-    right: 15px;
-  }
+.float {
+  position: fixed;
+  bottom: 25px;
+  right: 15px;
+}
 
-  .float-chart{
-    position: fixed;
-    right: 15px;
-    bottom: 12%;
-  }
-  .max-chart{
-    width: 100%;
-  }
+.float-chart {
+  position: fixed;
+  right: 15px;
+  bottom: 12%;
+}
+.max-chart {
+  width: 100%;
+}
 </style>
