@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     handleGrowth(data){
-      debugger
       this.modalVisible = data.length > 0 ? true : false
     } 
   },

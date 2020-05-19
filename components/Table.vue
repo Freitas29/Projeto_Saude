@@ -18,19 +18,19 @@
       <el-table-column label="Seguradora" :width="isMobile ? 650 : 'auto'">
         <template slot-scope="scope">
           <i class="el-icon-office-building"></i>
-          <span style="margin-left: 10px">{{ scope.row.f[0].v }}</span>
+          <span style="margin-left: 10px">{{ scope.row.NM_RAZAO_SOCIAL }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Municipio" :width="300">
         <template slot-scope="scope">
           <i class="el-icon-map-location"></i>
-          <span style="margin-left: 10px">{{ scope.row.f[1].v }}</span>
+          <span style="margin-left: 10px">{{ scope.row.NM_MUNICIPIO }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Beneficiários" :width="150">
         <template slot-scope="scope">
           <i class="el-icon-user"></i>
-          <span style="margin-left: 10px">{{ scope.row.f[2].v }}</span>
+          <span style="margin-left: 10px">{{ scope.row.BENEFICIARIOS }}</span>
         </template>
       </el-table-column>
     </el-table>

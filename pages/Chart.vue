@@ -70,7 +70,11 @@ export default {
       prospChart: []
     }
   },
-  computed: mapState(['insuranceCompanySelected', 'loading', 'chartGrowthData']),
+  computed: mapState([
+    'insuranceCompanySelected',
+    'loading',
+    'chartGrowthData'
+  ]),
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
     this.$root.$on('insuranceCompanySelected', this.handleInsuranceCompany)
@@ -95,17 +99,17 @@ export default {
     async handleInsuranceCompany(companies) {
       this.$store.commit('changeLoading', true)
 
-      const nameInsuraceCompanies = companies.map(insurace => insurace.f[0].v)
+      const nameInsuraceCompanies = companies.map(insurace => insurace.NM_RAZAO_SOCIAL)
 
       const { data } = await this.$axios.get('http://localhost:3001/chart', {
         params: {
           seguradoras: nameInsuraceCompanies,
           uf: this.stateSelected.initials,
-          municipio: companies[0].f[1].v
+          municipio: companies[0].NM_MUNICIPIO
         }
       })
 
-      this.$store.commit('changeChartGrowthData',data)
+      this.$store.commit('changeChartGrowthData', data)
       this.renderChartGrowth()
 
       this.$store.commit('changeLoading', false)
@@ -122,6 +126,7 @@ export default {
         data => data.NM_RAZAO_SOCIAL
       )
 
+      debugger
       const datasetChart = Object.entries(datasets).map(data => ({
         label: data[0],
         backgroundColor: '#f87979',
@@ -133,41 +138,21 @@ export default {
         data: datasetChart
       }
     },
-    authenticate() {
+    async authenticate() {
       const vmo = this
 
       this.$store.commit('changeLoading', true)
-      return gapi.auth2
-        .getAuthInstance()
-        .signIn({
-          scope: 'email profile openid'
-        })
-        .then(
-          async function(resp) {
-            const { access_token } = resp.getAuthResponse()
+      const response = await this.$axios.get('http://localhost:3001/brazil', {
+        params: {
+          uf: this.stateSelected.initials
+        }
+      })
 
-            // const perPage = 400
+      const { data } = response
 
-            const url = `https://bigquery.googleapis.com/bigquery/v2/projects/projeto-facul-275319/datasets/raw_beneficiarios/tables/BENEFICIARIOS_${vmo.stateSelected.initials}/data?&key=AIzaSyC4C_GzfiNOGhmmhMoobEhOLqpX3bqa8TQ`
+      this.rows = data
 
-            const response = await vmo.$axios.get(url, {
-              headers: {
-                Authorization: `Bearer ${access_token}`,
-                Accept: 'application/json'
-              }
-            })
-
-            const {
-              data: { rows, pageToken }
-            } = response
-
-            vmo.rows = groupBy(rows, item => item.f[1].v)
-            vmo.$store.commit('changeLoading', false)
-          },
-          function(err) {
-            vmo.$store.commit('changeLoading', false)
-          }
-        )
+      this.$store.commit('changeLoading', false)
     },
     handleConfirm() {
       this.dialogVisible = false
