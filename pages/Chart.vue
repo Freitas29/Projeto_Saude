@@ -1,17 +1,17 @@
 <template>
-  <div class="chart-page">
-    <transition name="fade">
-      <Brazil v-if="!loading" />
-    </transition>
+    <transition-group class="chart-page" name="fade">
 
-    <transition name="fade" class="max-chart">
+      <Brazil v-if="!loading" :key="1"/>
+    
+
+    <div name="fade" class="max-chart" :key="2">
       <Table :tableData="rows" v-if="!loading && hasResult" />
-    </transition>
+    </div>
 
-    <transition name="fade">
-      <div class="animation-loading" v-if="loading">
+    
+      <div class="animation-loading" v-if="loading" :key="3">
         <lottie-player
-          src="https://assets1.lottiefiles.com/packages/lf20_x62chJ.json"
+          src="https://assets5.lottiefiles.com/packages/lf20_W5Sk67.json"
           background="transparent"
           speed="1"
           style="width: 500px; height: 500px;"
@@ -19,11 +19,11 @@
           autoplay
         />
       </div>
-    </transition>
 
-    <Modal :dataChart="prospChart" />
+    <Modal :dataChart="prospChart" :key="4"/>
 
     <el-dialog
+    :key="5"
       title="Filtro"
       :visible.sync="dialogVisible"
       custom-class="dialog-modal"
@@ -38,7 +38,7 @@
         <el-button type="primary" @click="handleConfirm">Pesquisar</el-button>
       </span>
     </el-dialog>
-  </div>
+    </transition-group>
 </template>
 
 <script>
