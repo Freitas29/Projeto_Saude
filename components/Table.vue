@@ -111,11 +111,24 @@ export default {
       searchCounty: ''
     }
   },
-  computed: mapState([
+  computed: {
+    ...mapState([
     'isInsuranceCompany',
     'insuranceCompanies',
     'mapSelected'
   ]),
+
+  async tableLength(value){
+    if(this.tableData.length > 0){
+      const firstScrollTo = scroller()
+
+      await sleep(250)
+
+      firstScrollTo('#table')
+    }
+  }
+  
+  },
   methods: {
     handleRowClick(value) {
       this.$store.commit("changeIsInsuranceCompany", true)
@@ -161,21 +174,17 @@ export default {
       firstScrollTo('#table')
     }
   },
-  watch: {
-    async tableData() {
-      const firstScrollTo = scroller()
-
-      await sleep(250)
-
-      firstScrollTo('#table')
-    },
-    async isInsuranceCompany() {
+  async updated(){
+    if(this.isInsuranceCompany){
       const firstScrollTo = scroller()
 
       await sleep(250)
 
       firstScrollTo('#table')
     }
+  },
+  watch: {
+    tableLength(value){}
   }
 }
 </script>
