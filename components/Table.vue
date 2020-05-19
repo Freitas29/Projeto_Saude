@@ -7,7 +7,7 @@
     class="max-chart"
   >
     <el-table
-      :data="tableInsuranceCompany"
+      :data="insuranceCompanies"
       style="width: 100%"
       stripe
       v-if="isInsuranceCompany"
@@ -24,19 +24,28 @@
       <el-table-column label="Municipio" :width="300">
         <template slot-scope="scope">
           <i class="el-icon-map-location"></i>
-          <span style="margin-left: 10px">{{ scope.row.NM_MUNICIPIO }}</span>
+          <span style="margin-left: 10px">{{
+            mapSelected.name
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Beneficiários" :width="150">
         <template slot-scope="scope">
           <i class="el-icon-user"></i>
-          <span style="margin-left: 10px">{{ scope.row.BENEFICIARIOS }}</span>
+          <span style="margin-left: 10px">{{ scope.row.f0_ }}</span>
         </template>
       </el-table-column>
     </el-table>
+
     <el-table
       class="max-chart"
-      :data="county.filter(data => !searchCounty || data.toLowerCase().includes(searchCounty.toLowerCase()))"
+      :data="
+        tableData.filter(
+          data =>
+            !searchCounty ||
+            data.toLowerCase().includes(searchCounty.toLowerCase())
+        )
+      "
       style="width: 100%"
       stripe
       @current-change="handleRowClick"
@@ -46,18 +55,18 @@
       <el-table-column label="Município">
         <template slot-scope="scope">
           <i class="el-icon-location-information"></i>
-          <span style="margin-left: 10px">{{ scope.row }}</span>
+          <span style="margin-left: 10px">{{ scope.row.NM_MUNICIPIO }}</span>
         </template>
       </el-table-column>
       <el-table-column align="right">
-          <template slot="header" slot-scope="scope">
-            <el-input
-              v-model="searchCounty"
-              size="mini"
-              placeholder="Type to search"
-            />
-          </template>
-        </el-table-column>
+        <template slot="header" slot-scope="scope">
+          <el-input
+            v-model="searchCounty"
+            size="mini"
+            placeholder="Type to search"
+          />
+        </template>
+      </el-table-column>
     </el-table>
     <el-button
       class="float"
@@ -83,37 +92,52 @@
 import mobileScreen from '../mixins/mobileScreen'
 import { scroller } from 'vue-scrollto/src/scrollTo'
 import { sleep } from '~/shared/utils'
+import { mapState } from 'vuex'
 
 export default {
   name: 'TableSeguradora',
   props: {
     tableData: {
-      type: Object,
+      type: Array,
       required: true
     }
   },
   mixins: [mobileScreen],
   data() {
     return {
-      county: [],
-      isInsuranceCompany: false,
       tableInsuranceCompany: [],
       multipleSelection: [],
       searchInsuranceCompany: '',
-      searchCounty: '',
+      searchCounty: ''
     }
   },
+  computed: mapState([
+    'isInsuranceCompany',
+    'insuranceCompanies',
+    'mapSelected'
+  ]),
   methods: {
-    showCount() {
-      this.county = Object.keys(this.tableData).map(row => {
-        return row
-      })
-    },
     handleRowClick(value) {
-      this.isInsuranceCompany = true
-      this.tableInsuranceCompany = Object.entries(this.tableData)
-        .filter(county => county[0] === value)
-        .flat()[1]
+      this.$store.commit("changeIsInsuranceCompany", true)
+      this.fetchInsuranceCompany(value.NM_MUNICIPIO)
+    },
+    async fetchInsuranceCompany(municipio) {
+      const vmo = this;
+      
+      this.$store.commit('changeLoading', true)
+
+      const { data } = await this.$axios.get(
+        'http://localhost:3001/seguradoras',
+        {
+          params: {
+            uf: vmo.$store.state.mapSelected.initials,
+            municipio
+          }
+        }
+      )
+
+      vmo.$store.commit('changeInsuraceCompanies', data)
+      vmo.$store.commit('changeLoading', false)
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -125,17 +149,14 @@ export default {
       )
     },
     backToCounty() {
-      this.isInsuranceCompany = false
+      this.$store.commit("changeIsInsuranceCompany", false)
       const firstScrollTo = scroller()
 
       firstScrollTo('#table')
     }
   },
-  mounted() {
-    this.showCount()
-  },
   watch: {
-    async county() {
+    async tableData() {
       const firstScrollTo = scroller()
 
       await sleep(250)

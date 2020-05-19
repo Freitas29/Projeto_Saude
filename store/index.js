@@ -1,12 +1,23 @@
 export const state = () => ({
     loading: false,
     insuranceCompanySelected: [],
-    chartGrowthData: []
+    chartGrowthData: [],
+    mapSelected: {},
+    insuranceCompanies: [],
+    isInsuranceCompany: false,
 })
 
 export const mutations = {
     changeLoading(state, payload){
         state.loading = payload
+    },
+
+    changeIsInsuranceCompany(state, payload){
+        state.isInsuranceCompany = payload
+    },
+
+    changeInsuraceCompanies(state, payload){
+        state.insuranceCompanies = payload
     },
 
     changeInsuranceCompanySelected(state, payload){
@@ -15,6 +26,10 @@ export const mutations = {
 
     changeChartGrowthData(state, payload){
         state.chartGrowthData = payload
+    },
+
+    changeMapSelected(state, payload){
+        state.mapSelected = payload
     }
 }
 
@@ -29,6 +44,18 @@ export const actions = {
 
     changeChartGrowthData({ dispatch }, payload){
         dispatch('changeChartGrowthData', payload)
+    },
+
+    changeMapSelected({ dispatch }, payload){
+        dispatch("changeMapSelected", payload)
+    },
+
+    changeInsuraceCompanies({ dispatch }, payload){
+        dispatch("changeInsuraceCompanies", payload)
+    },
+    
+    changeIsInsuranceCompany({ dispatch }, payload){
+        dispatch("changeIsInsuranceCompany", payload)
     }
 
 }

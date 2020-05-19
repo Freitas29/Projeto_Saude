@@ -90,7 +90,6 @@ export default {
   created() {
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'changeInsuranceCompanySelected') {
-        debugger
         this.handleInsuranceCompany(state.insuranceCompanySelected)
       }
     })
@@ -126,7 +125,6 @@ export default {
         data => data.NM_RAZAO_SOCIAL
       )
 
-      debugger
       const datasetChart = Object.entries(datasets).map(data => ({
         label: data[0],
         backgroundColor: '#f87979',
@@ -142,13 +140,11 @@ export default {
       const vmo = this
 
       this.$store.commit('changeLoading', true)
-      const response = await this.$axios.get('http://localhost:3001/brazil', {
+      const { data } = await this.$axios.get('http://localhost:3001/municipios', {
         params: {
           uf: this.stateSelected.initials
         }
       })
-
-      const { data } = response
 
       this.rows = data
 
@@ -168,6 +164,8 @@ export default {
         initials
       }
 
+      this.$store.commit('changeMapSelected', this.stateSelected)
+
       this.dialogVisible = true
     },
     clearString(estado) {
@@ -179,7 +177,7 @@ export default {
   },
   watch: {
     rows(value) {
-      if (Object.keys(value).length > 0) {
+      if (value.length > 0) {
         this.hasResult = true
       } else {
         this.hasResult = false
