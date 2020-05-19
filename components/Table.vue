@@ -24,9 +24,7 @@
       <el-table-column label="Municipio" :width="300">
         <template slot-scope="scope">
           <i class="el-icon-map-location"></i>
-          <span style="margin-left: 10px">{{
-            mapSelected.name
-          }}</span>
+          <span style="margin-left: 10px">{{ mapSelected.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Beneficiários" :width="150">
@@ -112,33 +110,35 @@ export default {
     }
   },
   computed: {
-    ...mapState([
-    'isInsuranceCompany',
-    'insuranceCompanies',
-    'mapSelected'
-  ]),
+    ...mapState(['isInsuranceCompany', 'insuranceCompanies', 'mapSelected']),
 
-  async tableLength(value){
-    if(this.tableData.length > 0){
+    tableLength(value) {
       const firstScrollTo = scroller()
 
-      await sleep(250)
+      if (!this.isInsuranceCompany) {
+        sleep(250).then(() => {
+          firstScrollTo('#table')
+        })
+        return
+      }
 
-      firstScrollTo('#table')
+      if (this.tableData.length > 0 && this.multipleSelection.length === 0) {
+        sleep(750).then(() => {
+          firstScrollTo('#table')
+        })
+      }
     }
-  }
-  
   },
   methods: {
     handleRowClick(value) {
-      this.$store.commit("changeIsInsuranceCompany", true)
-      this.$store.commit("changeCounty", value.NM_MUNICIPIO)
-      
+      this.$store.commit('changeIsInsuranceCompany', true)
+      this.$store.commit('changeCounty', value.NM_MUNICIPIO)
+
       this.fetchInsuranceCompany(value.NM_MUNICIPIO)
     },
     async fetchInsuranceCompany(municipio) {
-      const vmo = this;
-      
+      const vmo = this
+
       this.$store.commit('changeLoading', true)
 
       const { data } = await this.$axios.get(
@@ -156,7 +156,6 @@ export default {
       await sleep(250)
 
       vmo.$store.commit('changeInsuraceCompanies', data)
-      
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -168,14 +167,14 @@ export default {
       )
     },
     backToCounty() {
-      this.$store.commit("changeIsInsuranceCompany", false)
+      this.$store.commit('changeIsInsuranceCompany', false)
       const firstScrollTo = scroller()
 
       firstScrollTo('#table')
     }
   },
-  async updated(){
-    if(this.isInsuranceCompany){
+  async updated() {
+    if (this.isInsuranceCompany) {
       const firstScrollTo = scroller()
 
       await sleep(250)
@@ -184,7 +183,17 @@ export default {
     }
   },
   watch: {
-    tableLength(value){}
+    tableLength(value) {}
+  },
+  async insuranceCompanies(value) {
+    console.log(this)
+    debugger
+    if (this.multipleSelection.length !== 0) return
+    const firstScrollTo = scroller()
+
+    await sleep(250)
+
+    firstScrollTo('#table')
   }
 }
 </script>

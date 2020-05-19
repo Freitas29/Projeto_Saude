@@ -46,7 +46,7 @@ import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
 import Modal from '~/components/ModalChartGrowth'
-import { groupBy, sleep } from '../shared/utils'
+import { groupBy, sleep, getRandomColor } from '../shared/utils'
 import { mapState } from 'vuex'
 
 export default {
@@ -113,12 +113,9 @@ export default {
 
       this.$store.commit('changeChartGrowthData', data)
       
-      await sleep(250)
       
-      this.$store.commit('changeLoading', false)
 
       this.renderChartGrowth()
-      
     },
     renderChartGrowth() {
       const dates = this.chartGrowthData.map(t => t.DT_REFERENCIA.value)
@@ -134,7 +131,7 @@ export default {
 
       const datasetChart = Object.entries(datasets).map(data => ({
         label: data[0],
-        backgroundColor: '#f87979',
+        backgroundColor: getRandomColor(),
         data: data[1].map(valor => valor.f0_)
       }))
 
@@ -142,6 +139,8 @@ export default {
         labels: dates.filter(distict),
         data: datasetChart
       }
+
+       this.$store.commit('changeLoading', false)
     },
     async authenticate() {
       const vmo = this

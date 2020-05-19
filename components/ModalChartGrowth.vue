@@ -53,4 +53,8 @@ export default {
   }
 }
 </script>
-<style></style>
+<style>
+canvas{
+  min-height: 100vh;
+}
+</style>
