@@ -43,7 +43,7 @@
         tableData.filter(
           data =>
             !searchCounty ||
-            data.toLowerCase().includes(searchCounty.toLowerCase())
+            data.NM_MUNICIPIO.toLowerCase().includes(searchCounty.toLowerCase())
         )
       "
       style="width: 100%"
@@ -63,7 +63,7 @@
           <el-input
             v-model="searchCounty"
             size="mini"
-            placeholder="Type to search"
+            placeholder="Digite para filtrar por município"
           />
         </template>
       </el-table-column>
@@ -119,6 +119,8 @@ export default {
   methods: {
     handleRowClick(value) {
       this.$store.commit("changeIsInsuranceCompany", true)
+      this.$store.commit("changeCounty", value.NM_MUNICIPIO)
+      
       this.fetchInsuranceCompany(value.NM_MUNICIPIO)
     },
     async fetchInsuranceCompany(municipio) {
@@ -136,8 +138,12 @@ export default {
         }
       )
 
-      vmo.$store.commit('changeInsuraceCompanies', data)
       vmo.$store.commit('changeLoading', false)
+
+      await sleep(250)
+
+      vmo.$store.commit('changeInsuraceCompanies', data)
+      
     },
     handleSelectionChange(val) {
       this.multipleSelection = val

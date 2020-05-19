@@ -5,6 +5,7 @@ export const state = () => ({
     mapSelected: {},
     insuranceCompanies: [],
     isInsuranceCompany: false,
+    county: ""
 })
 
 export const mutations = {
@@ -14,6 +15,10 @@ export const mutations = {
 
     changeIsInsuranceCompany(state, payload){
         state.isInsuranceCompany = payload
+    },
+
+    changeCounty(state, payload){
+        state.county = payload
     },
 
     changeInsuraceCompanies(state, payload){
@@ -56,6 +61,10 @@ export const actions = {
     
     changeIsInsuranceCompany({ dispatch }, payload){
         dispatch("changeIsInsuranceCompany", payload)
+    },
+
+    changeCounty({ dispatch }, payload){
+        dispatch("changeCounty", payload)
     }
 
 }

@@ -46,7 +46,7 @@ import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
 import Modal from '~/components/ModalChartGrowth'
-import { groupBy } from '../shared/utils'
+import { groupBy, sleep } from '../shared/utils'
 import { mapState } from 'vuex'
 
 export default {
@@ -73,7 +73,8 @@ export default {
   computed: mapState([
     'insuranceCompanySelected',
     'loading',
-    'chartGrowthData'
+    'chartGrowthData',
+    'county'
   ]),
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
@@ -98,20 +99,26 @@ export default {
     async handleInsuranceCompany(companies) {
       this.$store.commit('changeLoading', true)
 
-      const nameInsuraceCompanies = companies.map(insurace => insurace.NM_RAZAO_SOCIAL)
+      const nameInsuraceCompanies = companies.map(
+        insurace => insurace.NM_RAZAO_SOCIAL
+      )
 
       const { data } = await this.$axios.get('http://localhost:3001/chart', {
         params: {
           seguradoras: nameInsuraceCompanies,
           uf: this.stateSelected.initials,
-          municipio: companies[0].NM_MUNICIPIO
+          municipio: this.$store.state.county
         }
       })
 
       this.$store.commit('changeChartGrowthData', data)
-      this.renderChartGrowth()
-
+      
+      await sleep(250)
+      
       this.$store.commit('changeLoading', false)
+
+      this.renderChartGrowth()
+      
     },
     renderChartGrowth() {
       const dates = this.chartGrowthData.map(t => t.DT_REFERENCIA.value)
@@ -140,13 +147,18 @@ export default {
       const vmo = this
 
       this.$store.commit('changeLoading', true)
-      const { data } = await this.$axios.get('http://localhost:3001/municipios', {
-        params: {
-          uf: this.stateSelected.initials
+      const { data } = await this.$axios.get(
+        'http://localhost:3001/municipios',
+        {
+          params: {
+            uf: this.stateSelected.initials
+          }
         }
-      })
+      )
 
       this.rows = data
+
+      await sleep(500)
 
       this.$store.commit('changeLoading', false)
     },
