@@ -116,13 +116,15 @@ export default {
       const firstScrollTo = scroller()
 
       if (!this.isInsuranceCompany) {
+        debugger
         sleep(250).then(() => {
           firstScrollTo('#table')
         })
         return
       }
 
-      if (this.tableData.length > 0 && this.multipleSelection.length === 0) {
+      if (this.tableData.length > 0 && this.multipleSelection.length <= 0) {
+        debugger
         sleep(750).then(() => {
           firstScrollTo('#table')
         })
@@ -175,7 +177,11 @@ export default {
   },
   async updated() {
     if (this.isInsuranceCompany) {
+       if (this.tableData.length > 0 && this.multipleSelection.length > 0) {
+         return
+       }
       const firstScrollTo = scroller()
+
 
       await sleep(250)
 
