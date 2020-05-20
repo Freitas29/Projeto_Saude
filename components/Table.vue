@@ -116,15 +116,13 @@ export default {
       const firstScrollTo = scroller()
 
       if (!this.isInsuranceCompany) {
-        debugger
         sleep(250).then(() => {
           firstScrollTo('#table')
         })
         return
       }
 
-      if (this.tableData.length > 0 && this.multipleSelection.length <= 0) {
-        debugger
+      if (this.tableData.length > 0) {
         sleep(750).then(() => {
           firstScrollTo('#table')
         })
@@ -133,15 +131,15 @@ export default {
   },
   methods: {
     handleRowClick(value) {
-      this.$store.commit('changeIsInsuranceCompany', true)
-      this.$store.commit('changeCounty', value.NM_MUNICIPIO)
+      this.$store.dispatch('changeIsInsuranceCompany', true)
+      this.$store.dispatch('changeCounty', value.NM_MUNICIPIO)
 
       this.fetchInsuranceCompany(value.NM_MUNICIPIO)
     },
     async fetchInsuranceCompany(municipio) {
       const vmo = this
 
-      this.$store.commit('changeLoading', true)
+      this.$store.dispatch('changeLoading', true)
 
       const { data } = await this.$axios.get(
         'http://localhost:3001/seguradoras',
@@ -153,37 +151,24 @@ export default {
         }
       )
 
-      vmo.$store.commit('changeLoading', false)
+      vmo.$store.dispatch('changeLoading', false)
 
       await sleep(250)
 
-      vmo.$store.commit('changeInsuraceCompanies', data)
+      vmo.$store.dispatch('changeInsuraceCompanies', data)
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
     search() {
-      this.$store.commit(
+      this.$store.dispatch(
         'changeInsuranceCompanySelected',
         this.multipleSelection
       )
     },
     backToCounty() {
-      this.$store.commit('changeIsInsuranceCompany', false)
+      this.$store.dispatch('changeIsInsuranceCompany', false)
       const firstScrollTo = scroller()
-
-      firstScrollTo('#table')
-    }
-  },
-  async updated() {
-    if (this.isInsuranceCompany) {
-       if (this.tableData.length > 0 && this.multipleSelection.length > 0) {
-         return
-       }
-      const firstScrollTo = scroller()
-
-
-      await sleep(250)
 
       firstScrollTo('#table')
     }
@@ -193,7 +178,6 @@ export default {
   },
   async insuranceCompanies(value) {
     console.log(this)
-    debugger
     if (this.multipleSelection.length !== 0) return
     const firstScrollTo = scroller()
 

@@ -93,11 +93,19 @@ export default {
       if (mutation.type === 'changeInsuranceCompanySelected') {
         this.handleInsuranceCompany(state.insuranceCompanySelected)
       }
+
+      if (mutation.type === 'changeModalGrowthClose') {
+        debugger
+        this.prospChart ={}
+      }
     })
+  },
+  beforeDestroy() {
+    this.unsubscribe();
   },
   methods: {
     async handleInsuranceCompany(companies) {
-      this.$store.commit('changeLoading', true)
+      this.$store.dispatch('changeLoading', true)
 
       const nameInsuraceCompanies = companies.map(
         insurace => insurace.NM_RAZAO_SOCIAL
@@ -111,7 +119,7 @@ export default {
         }
       })
 
-      this.$store.commit('changeChartGrowthData', data)
+      this.$store.dispatch('changeChartGrowthData', data)
       
       
 
@@ -140,12 +148,12 @@ export default {
         data: datasetChart
       }
 
-       this.$store.commit('changeLoading', false)
+       this.$store.dispatch('changeLoading', false)
     },
     async authenticate() {
       const vmo = this
 
-      this.$store.commit('changeLoading', true)
+      this.$store.dispatch('changeLoading', true)
       const { data } = await this.$axios.get(
         'http://localhost:3001/municipios',
         {
@@ -159,7 +167,7 @@ export default {
 
       await sleep(500)
 
-      this.$store.commit('changeLoading', false)
+      this.$store.dispatch('changeLoading', false)
     },
     handleConfirm() {
       this.dialogVisible = false
@@ -175,7 +183,7 @@ export default {
         initials
       }
 
-      this.$store.commit('changeMapSelected', this.stateSelected)
+      this.$store.dispatch('changeMapSelected', this.stateSelected)
 
       this.dialogVisible = true
     },
