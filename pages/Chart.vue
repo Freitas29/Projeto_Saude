@@ -171,6 +171,7 @@ export default {
     },
     handleConfirm() {
       this.dialogVisible = false
+      this.$store.dispatch("changeIsInsuranceCompany", false)
       this.authenticate()
     },
     handleStateClicked(state) {
