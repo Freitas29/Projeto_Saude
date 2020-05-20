@@ -1,17 +1,17 @@
 <template>
-  <div class="chart-page">
-    <transition name="fade">
-      <Brazil v-if="!loading" />
-    </transition>
+    <transition-group class="chart-page" name="fade">
 
-    <transition name="fade" class="max-chart">
+      <Brazil v-if="!loading" :key="1"/>
+    
+
+    <div name="fade" class="max-chart" :key="2">
       <Table :tableData="rows" v-if="!loading && hasResult" />
-    </transition>
+    </div>
 
-    <transition name="fade">
-      <div class="animation-loading" v-if="loading">
+    
+      <div class="animation-loading" v-if="loading" :key="3">
         <lottie-player
-          src="https://assets1.lottiefiles.com/packages/lf20_x62chJ.json"
+          src="https://assets5.lottiefiles.com/packages/lf20_W5Sk67.json"
           background="transparent"
           speed="1"
           style="width: 500px; height: 500px;"
@@ -19,11 +19,11 @@
           autoplay
         />
       </div>
-    </transition>
 
-    <Modal :dataChart="prospChart" />
+    <Modal :dataChart="prospChart" :key="4"/>
 
     <el-dialog
+    :key="5"
       title="Filtro"
       :visible.sync="dialogVisible"
       custom-class="dialog-modal"
@@ -38,7 +38,7 @@
         <el-button type="primary" @click="handleConfirm">Pesquisar</el-button>
       </span>
     </el-dialog>
-  </div>
+    </transition-group>
 </template>
 
 <script>
@@ -46,7 +46,7 @@ import Brazil from '~/components/Brazil'
 import '@lottiefiles/lottie-player'
 import Table from '~/components/Table'
 import Modal from '~/components/ModalChartGrowth'
-import { groupBy } from '../shared/utils'
+import { groupBy, sleep, getRandomColor } from '../shared/utils'
 import { mapState } from 'vuex'
 
 export default {
@@ -73,7 +73,8 @@ export default {
   computed: mapState([
     'insuranceCompanySelected',
     'loading',
-    'chartGrowthData'
+    'chartGrowthData',
+    'county'
   ]),
   mounted() {
     this.$root.$on('stateClicked', this.handleStateClicked)
@@ -92,26 +93,37 @@ export default {
       if (mutation.type === 'changeInsuranceCompanySelected') {
         this.handleInsuranceCompany(state.insuranceCompanySelected)
       }
+
+      if (mutation.type === 'changeModalGrowthClose') {
+        debugger
+        this.prospChart ={}
+      }
     })
+  },
+  beforeDestroy() {
+    this.unsubscribe();
   },
   methods: {
     async handleInsuranceCompany(companies) {
-      this.$store.commit('changeLoading', true)
+      this.$store.dispatch('changeLoading', true)
 
-      const nameInsuraceCompanies = companies.map(insurace => insurace.NM_RAZAO_SOCIAL)
+      const nameInsuraceCompanies = companies.map(
+        insurace => insurace.NM_RAZAO_SOCIAL
+      )
 
       const { data } = await this.$axios.get('http://localhost:3001/chart', {
         params: {
           seguradoras: nameInsuraceCompanies,
           uf: this.stateSelected.initials,
-          municipio: companies[0].NM_MUNICIPIO
+          municipio: this.$store.state.county
         }
       })
 
-      this.$store.commit('changeChartGrowthData', data)
-      this.renderChartGrowth()
+      this.$store.dispatch('changeChartGrowthData', data)
+      
+      
 
-      this.$store.commit('changeLoading', false)
+      this.renderChartGrowth()
     },
     renderChartGrowth() {
       const dates = this.chartGrowthData.map(t => t.DT_REFERENCIA.value)
@@ -127,7 +139,7 @@ export default {
 
       const datasetChart = Object.entries(datasets).map(data => ({
         label: data[0],
-        backgroundColor: '#f87979',
+        backgroundColor: getRandomColor(),
         data: data[1].map(valor => valor.f0_)
       }))
 
@@ -135,23 +147,31 @@ export default {
         labels: dates.filter(distict),
         data: datasetChart
       }
+
+       this.$store.dispatch('changeLoading', false)
     },
     async authenticate() {
       const vmo = this
 
-      this.$store.commit('changeLoading', true)
-      const { data } = await this.$axios.get('http://localhost:3001/municipios', {
-        params: {
-          uf: this.stateSelected.initials
+      this.$store.dispatch('changeLoading', true)
+      const { data } = await this.$axios.get(
+        'http://localhost:3001/municipios',
+        {
+          params: {
+            uf: this.stateSelected.initials
+          }
         }
-      })
+      )
 
       this.rows = data
 
-      this.$store.commit('changeLoading', false)
+      await sleep(500)
+
+      this.$store.dispatch('changeLoading', false)
     },
     handleConfirm() {
       this.dialogVisible = false
+      this.$store.dispatch("changeIsInsuranceCompany", false)
       this.authenticate()
     },
     handleStateClicked(state) {
@@ -164,7 +184,7 @@ export default {
         initials
       }
 
-      this.$store.commit('changeMapSelected', this.stateSelected)
+      this.$store.dispatch('changeMapSelected', this.stateSelected)
 
       this.dialogVisible = true
     },

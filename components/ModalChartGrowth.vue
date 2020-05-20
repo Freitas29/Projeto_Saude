@@ -1,44 +1,57 @@
 <template>
-  <el-dialog title="Análise de beneficiários ano/mês" :visible.sync="modalVisible" width="90%" center>
-    <canvas ref="canvas" width="900" height="400"></canvas>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="centerDialogVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="centerDialogVisible = false"
-        >Confirm</el-button
-      >
-    </span>
+  <el-dialog
+    title="Análise de beneficiários ano/mês"
+    :visible.sync="modalVisible"
+    width="90%"
+    top="1vh"
+    center
+  >
+    <canvas ref="canvas"></canvas>
   </el-dialog>
 </template>
 
 <script>
 import { Line } from 'vue-chartjs'
-import { sleep } from '../shared/utils'
+import { sleep, objectIsEmpty } from '../shared/utils'
 
 export default {
   extends: Line,
   props: {
     dataChart: {}
   },
-  data(){
-    return{
-      modalVisible: false,
+  data() {
+    return {
+      modalVisible: false
     }
   },
-  created(){
+  created() {
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'changeChartGrowthData') {
         this.handleGrowth(state.chartGrowthData)
       }
     })
   },
+  beforeDestroy() {
+    this.unsubscribe()
+  },
   methods: {
-    handleGrowth(data){
+    handleGrowth(data) {
       this.modalVisible = data.length > 0 ? true : false
-    } 
+    }
   },
   watch: {
     async dataChart(value) {
-      this.modalVisible = true;
+      if (objectIsEmpty(value)) {
+        this.renderChart({
+          labels: [],
+          datasets: []
+        },
+        { responsive: true, maintainAspectRatio: false })
+
+         return
+      }
+     
+      this.modalVisible = true
 
       await sleep(1000)
 
@@ -49,8 +62,16 @@ export default {
         },
         { responsive: true, maintainAspectRatio: false }
       )
+    },
+    modalVisible(value) {
+      this.$store.dispatch('changeModalGrowthClose', value)
     }
   }
 }
 </script>
-<style></style>
+<style>
+canvas {
+    min-height: 80vh;
+    max-height: 110vh;
+}
+</style>

@@ -5,6 +5,7 @@ export const state = () => ({
     mapSelected: {},
     insuranceCompanies: [],
     isInsuranceCompany: false,
+    county: ""
 })
 
 export const mutations = {
@@ -14,6 +15,10 @@ export const mutations = {
 
     changeIsInsuranceCompany(state, payload){
         state.isInsuranceCompany = payload
+    },
+
+    changeCounty(state, payload){
+        state.county = payload
     },
 
     changeInsuraceCompanies(state, payload){
@@ -30,32 +35,46 @@ export const mutations = {
 
     changeMapSelected(state, payload){
         state.mapSelected = payload
+    },
+
+    changeModalGrowthClose(state){
+        state.chartGrowthData = []
     }
 }
 
 export const actions = {
-    chageLoading({ dispatch }, payload){
-        dispatch('changeLoading', payload)
+    changeLoading({ commit }, payload){
+        commit('changeLoading', payload)
     },
 
-    changeInsuranceCompanySelected({ dispatch }, payload){
-        dispatch('changeInsuranceCompanySelected', payload)
+    changeInsuranceCompanySelected({ commit }, payload){
+        commit('changeInsuranceCompanySelected', payload)
     },
 
-    changeChartGrowthData({ dispatch }, payload){
-        dispatch('changeChartGrowthData', payload)
+    changeChartGrowthData({ commit }, payload){
+        commit('changeChartGrowthData', payload)
     },
 
-    changeMapSelected({ dispatch }, payload){
-        dispatch("changeMapSelected", payload)
+    changeMapSelected({ commit }, payload){
+        commit("changeMapSelected", payload)
     },
 
-    changeInsuraceCompanies({ dispatch }, payload){
-        dispatch("changeInsuraceCompanies", payload)
+    changeInsuraceCompanies({ commit }, payload){
+        commit("changeInsuraceCompanies", payload)
     },
     
-    changeIsInsuranceCompany({ dispatch }, payload){
-        dispatch("changeIsInsuranceCompany", payload)
+    changeIsInsuranceCompany({ commit }, payload){
+        commit("changeIsInsuranceCompany", payload)
+    },
+
+    changeCounty({ commit }, payload){
+        commit("changeCounty", payload)
+    },
+
+    changeModalGrowthClose({ commit }, payload){
+        if(!payload){
+            commit("changeModalGrowthClose")
+        }
     }
 
 }

@@ -24,9 +24,7 @@
       <el-table-column label="Municipio" :width="300">
         <template slot-scope="scope">
           <i class="el-icon-map-location"></i>
-          <span style="margin-left: 10px">{{
-            mapSelected.name
-          }}</span>
+          <span style="margin-left: 10px">{{ mapSelected.name }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Beneficiários" :width="150">
@@ -43,7 +41,7 @@
         tableData.filter(
           data =>
             !searchCounty ||
-            data.toLowerCase().includes(searchCounty.toLowerCase())
+            data.NM_MUNICIPIO.toLowerCase().includes(searchCounty.toLowerCase())
         )
       "
       style="width: 100%"
@@ -63,7 +61,7 @@
           <el-input
             v-model="searchCounty"
             size="mini"
-            placeholder="Type to search"
+            placeholder="Digite para filtrar por município"
           />
         </template>
       </el-table-column>
@@ -111,20 +109,37 @@ export default {
       searchCounty: ''
     }
   },
-  computed: mapState([
-    'isInsuranceCompany',
-    'insuranceCompanies',
-    'mapSelected'
-  ]),
+  computed: {
+    ...mapState(['isInsuranceCompany', 'insuranceCompanies', 'mapSelected']),
+
+    tableLength(value) {
+      const firstScrollTo = scroller()
+
+      if (!this.isInsuranceCompany) {
+        sleep(250).then(() => {
+          firstScrollTo('#table')
+        })
+        return
+      }
+
+      if (this.tableData.length > 0) {
+        sleep(750).then(() => {
+          firstScrollTo('#table')
+        })
+      }
+    }
+  },
   methods: {
     handleRowClick(value) {
-      this.$store.commit("changeIsInsuranceCompany", true)
+      this.$store.dispatch('changeIsInsuranceCompany', true)
+      this.$store.dispatch('changeCounty', value.NM_MUNICIPIO)
+
       this.fetchInsuranceCompany(value.NM_MUNICIPIO)
     },
     async fetchInsuranceCompany(municipio) {
-      const vmo = this;
-      
-      this.$store.commit('changeLoading', true)
+      const vmo = this
+
+      this.$store.dispatch('changeLoading', true)
 
       const { data } = await this.$axios.get(
         'http://localhost:3001/seguradoras',
@@ -136,40 +151,39 @@ export default {
         }
       )
 
-      vmo.$store.commit('changeInsuraceCompanies', data)
-      vmo.$store.commit('changeLoading', false)
+      vmo.$store.dispatch('changeLoading', false)
+
+      await sleep(250)
+
+      vmo.$store.dispatch('changeInsuraceCompanies', data)
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
     search() {
-      this.$store.commit(
+      this.$store.dispatch(
         'changeInsuranceCompanySelected',
         this.multipleSelection
       )
     },
     backToCounty() {
-      this.$store.commit("changeIsInsuranceCompany", false)
+      this.$store.dispatch('changeIsInsuranceCompany', false)
       const firstScrollTo = scroller()
 
       firstScrollTo('#table')
     }
   },
   watch: {
-    async tableData() {
-      const firstScrollTo = scroller()
+    tableLength(value) {}
+  },
+  async insuranceCompanies(value) {
+    console.log(this)
+    if (this.multipleSelection.length !== 0) return
+    const firstScrollTo = scroller()
 
-      await sleep(250)
+    await sleep(250)
 
-      firstScrollTo('#table')
-    },
-    async isInsuranceCompany() {
-      const firstScrollTo = scroller()
-
-      await sleep(250)
-
-      firstScrollTo('#table')
-    }
+    firstScrollTo('#table')
   }
 }
 </script>
