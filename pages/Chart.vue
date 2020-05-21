@@ -111,7 +111,7 @@ export default {
         insurace => insurace.NM_RAZAO_SOCIAL
       )
 
-      const { data } = await this.$axios.get('http://localhost:3001/chart', {
+      const { data } = await this.$axios.get('/chart', {
         params: {
           seguradoras: nameInsuraceCompanies,
           uf: this.stateSelected.initials,
@@ -155,7 +155,7 @@ export default {
 
       this.$store.dispatch('changeLoading', true)
       const { data } = await this.$axios.get(
-        'http://localhost:3001/municipios',
+        '/municipios',
         {
           params: {
             uf: this.stateSelected.initials
