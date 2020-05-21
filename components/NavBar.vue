@@ -20,7 +20,7 @@
 
     <ul class="header__navbar" v-else>
       <li class="header__item">
-        <a href="#" class="header__link">
+        <a class="header__link">
           <transition name="slide-fade">
             <button
               class="header--button"
