@@ -2,6 +2,7 @@
   <div>
     <NavBar />
     <nuxt />
+    <el-switch v-model="isDarkMode" class="theme-mode"> </el-switch>
   </div>
 </template>
 
@@ -12,10 +13,74 @@ export default {
   components: {
     NavBar
   },
+  data() {
+    return {
+      isDarkMode: false,
+      light: {
+        mainColor: '#1d3557',
+        primaryColor: '#2a5fe4',
+        secondColor: '#02c39a',
+        defaultColor: '#fff',
+        textColor: '#fff',
+        darkTextColor: '#1d3557',
+        grayTextColor: '#d4f5ff',
+        navBarColor: "#1d3557"
+      },
+      dark: {
+        mainColor: '#2a5fe4',
+        primaryColor: '#000',
+        secondColor: '#0b0a14',
+        defaultColor: 'red',
+        textColor: '#fff',
+        darkTextColor: '#eee',
+        grayTextColor: '#ccc',
+        navBarColor: "#000"
+      }
+    }
+  },
   transition: {
-      name: 'page',
-      mode: 'out-in'
-    },
+    name: 'page',
+    mode: 'out-in'
+  },
+  mounted() {
+    const color = localStorage.getItem('color')
+    debugger
+    if(color === null){
+      this.changeTheme(this.light)
+    }else if(color === "dark"){
+      this.changeTheme(this.dark)
+      this.isDarkMode = true
+    }else{
+      this.changeTheme(this.light)
+      this.isDarkMode = false
+    }
+  },
+  methods: {
+    changeTheme(theme) {
+      const el = document.documentElement
+
+      Object.entries(theme).map(item => {
+        el.style.setProperty(
+          `--${item[0]
+            .split(/(?=[A-Z])/)
+            .join('-')
+            .toLowerCase()}`,
+          item[1]
+        )
+      })
+    }
+  },
+  watch: {
+    isDarkMode(value) {
+      if (value) {
+        this.changeTheme(this.dark)
+        localStorage.setItem('color', 'dark')
+      } else {
+        this.changeTheme(this.light)
+        localStorage.setItem('color','light')
+      }
+    }
+  }
 }
 </script>
 
@@ -32,6 +97,12 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   width: 100%;
+}
+
+.theme-mode {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
 }
 
 *,
