@@ -9,11 +9,10 @@
       <ul class="el-menu el-menu--horizontal navbar__menu">
         <li class="el-menu-item" v-scroll-to="'#oQueSomos'">O que somos</li>
 
-        
-          <li class="el-menu-item" v-scroll-to="'#nossoProduto'">
-            Nosso produto
-          </li>
-        
+        <li class="el-menu-item" v-scroll-to="'#nossoProduto'">
+          Nosso produto
+        </li>
+
         <li class="el-menu-item" v-scroll-to="'#diferencial'">Diferencial</li>
       </ul>
     </el-col>
@@ -61,26 +60,22 @@
           >
             <ul class="dropdown__menu-nav">
               <li class="dropdown__menu-item" v-scroll-to="'#oQueSomos'">
-                  <a href="#" class="dropdown__menu-link" title="Account">
-                    <div class="dropdown__menu-svg">
-                    </div>
-                      <div class="dropdown__menu-text">O que somos</div>
-                  </a>
+                <a href="#" class="dropdown__menu-link" title="Account">
+                  <div class="dropdown__menu-svg"></div>
+                  <div class="dropdown__menu-text">O que somos</div>
+                </a>
               </li>
               <li class="dropdown__menu-item" v-scroll-to="'#nossoProduto'">
-                  <a href="#" class="dropdown__menu-link" title="Account">
-                    <div class="dropdown__menu-svg">
-                    </div>
-                      <div class="dropdown__menu-text" >Nosso produto</div>
-                    
-                  </a>
+                <a href="#" class="dropdown__menu-link" title="Account">
+                  <div class="dropdown__menu-svg"></div>
+                  <div class="dropdown__menu-text">Nosso produto</div>
+                </a>
               </li>
               <li class="dropdown__menu-item" v-scroll-to="'#diferencial'">
-                  <a href="#" class="dropdown__menu-link" title="Account">
-                    <div class="dropdown__menu-svg">
-                    </div>
-                      <div class="dropdown__menu-text">Diferencial</div>
-                  </a>
+                <a href="#" class="dropdown__menu-link" title="Account">
+                  <div class="dropdown__menu-svg"></div>
+                  <div class="dropdown__menu-text">Diferencial</div>
+                </a>
               </li>
             </ul>
           </div>
@@ -100,31 +95,31 @@ export default {
       show: false
     }
   },
-  mixins: [mobileScreen],
+  mixins: [mobileScreen]
 }
 </script>
 
 <style lang="scss">
-ul{
+ul {
   list-style: none;
   position: fixed;
 }
-$primary: #1d3557;
+
+$primary: var(--nav-bar-color);
 
 .nav {
   background-color: $primary;
-position: fixed;
-    z-index: 1000;
-    width: 100%;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
 
   li {
     color: #ffffff !important;
     font-size: 18px !important;
-
-  } 
+  }
 }
 
-.nav li:hover{
+.nav li:hover {
   background-color: #2a5fe4 !important;
 }
 
@@ -265,15 +260,14 @@ img {
     background-color: transparent !important;
     position: relative;
 
-    li{
+    li {
       &:hover {
         background-color: inherit !important;
       }
     }
   }
   &__item {
-
-    &:hover{
+    &:hover {
       background-color: transparent !important;
     }
     padding: 1rem;
@@ -298,7 +292,6 @@ img {
   }
 }
 
-
 .dropdown__menu {
   top: 100%;
   right: 0;
@@ -317,7 +310,7 @@ img {
   .li:hover {
     background-color: transparent !important;
   }
-  
+
   &.li:hover {
     background-color: transparent !important;
   }
@@ -348,7 +341,6 @@ img {
     margin-right: 1rem;
   }
 }
-
 
 .el-menu.el-menu--horizontal {
   border: none;

@@ -119,9 +119,18 @@ export default {
   align-items: center;
   text-align: center;
   position: relative;
+
+  #oQueSomos{
+    background-color: var(--primary-color);
+  }
+
+  #nossoProduto{
+    background-color: var(--default-color);
+  }
+
 }
 .mapa {
-  background-color: #fff;
+  background-color: var(--text-color);
 
   border-radius: 50px;
   top: -69px;
@@ -147,25 +156,25 @@ export default {
 }
 
 .apresentacao {
-  background-color: #2a7ae4;
+  background-color: var(--primary-color);
 
   .textos {
     padding: 10px;
     width: 100%;
     position: relative;
-    color: #fff;
+    color: var(--text-color);
 
     h1 {
       font-size: 50px;
       margin-bottom: 1rem;
-      color: #d4f5ff;
+      color: var(--gray-text-color);
     }
 
     p {
       text-align: justify;
       font-size: 30px;
       font-weight: 400;
-      color: #d4f5ff;
+      color: var(--gray-text-color);
     }
   }
 
@@ -183,10 +192,10 @@ export default {
 }
 
 #diferencial{
-  background-color: #02C39A;
+  background-color: var(--second-color);
 
   h1{
-    color: #1d3557;
+    color: var(--main-color);
   }
 }
 
