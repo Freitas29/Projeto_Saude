@@ -43,7 +43,17 @@ export default {
     mode: 'out-in'
   },
   mounted() {
-    this.changeTheme(this.light)
+    const color = localStorage.getItem('color')
+    debugger
+    if(color === null){
+      this.changeTheme(this.light)
+    }else if(color === "dark"){
+      this.changeTheme(this.dark)
+      this.isDarkMode = true
+    }else{
+      this.changeTheme(this.light)
+      this.isDarkMode = false
+    }
   },
   methods: {
     changeTheme(theme) {
@@ -64,8 +74,10 @@ export default {
     isDarkMode(value) {
       if (value) {
         this.changeTheme(this.dark)
+        localStorage.setItem('color', 'dark')
       } else {
         this.changeTheme(this.light)
+        localStorage.setItem('color','light')
       }
     }
   }
