@@ -182,6 +182,14 @@ export default {
   }
 }
 
+#diferencial{
+  background-color: #02C39A;
+
+  h1{
+    color: #1d3557;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .textos {
     padding: 10px;
