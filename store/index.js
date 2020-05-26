@@ -5,12 +5,17 @@ export const state = () => ({
     mapSelected: {},
     insuranceCompanies: [],
     isInsuranceCompany: false,
-    county: ""
+    county: "",
+    isDarkMode: false,
 })
 
 export const mutations = {
     changeLoading(state, payload){
         state.loading = payload
+    },
+
+    changeIsDarkMode(state, payload){
+        state.isDarkMode = payload
     },
 
     changeIsInsuranceCompany(state, payload){

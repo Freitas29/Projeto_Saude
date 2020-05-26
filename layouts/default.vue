@@ -2,20 +2,36 @@
   <div>
     <NavBar />
     <nuxt />
-    <el-switch v-model="isDarkMode" class="theme-mode"> </el-switch>
+    <DarkMode class="theme-mode" />
   </div>
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
+import DarkMode from '../components/DarkMode'
+import { mapState } from 'vuex'
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    DarkMode
+  },
+  mounted() {
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'changeIsDarkMode') {
+        this.handleIsDarkMode(state.isDarkMode)
+      }
+    })
+  },
+  beforeDestroy() {
+    this.unsubscribe()
+  },
+  transition: {
+    name: 'page',
+    mode: 'out-in'
   },
   data() {
     return {
-      isDarkMode: false,
       light: {
         mainColor: '#1d3557',
         primaryColor: '#2a5fe4',
@@ -24,7 +40,7 @@ export default {
         textColor: '#fff',
         darkTextColor: '#1d3557',
         grayTextColor: '#d4f5ff',
-        navBarColor: "#1d3557"
+        navBarColor: '#1d3557'
       },
       dark: {
         mainColor: '#2a5fe4',
@@ -34,7 +50,7 @@ export default {
         textColor: '#fff',
         darkTextColor: '#eee',
         grayTextColor: '#ccc',
-        navBarColor: "#000"
+        navBarColor: '#000'
       }
     }
   },
@@ -42,17 +58,17 @@ export default {
     name: 'page',
     mode: 'out-in'
   },
-  mounted() {
+  created() {
     const color = localStorage.getItem('color')
-    debugger
-    if(color === null){
+    if (color === null) {
       this.changeTheme(this.light)
-    }else if(color === "dark"){
+      this.$store.commit('changeIsDarkMode', false)
+    } else if (color === 'dark') {
       this.changeTheme(this.dark)
-      this.isDarkMode = true
-    }else{
+      this.$store.commit('changeIsDarkMode', true)
+    } else {
       this.changeTheme(this.light)
-      this.isDarkMode = false
+      this.$store.commit('changeIsDarkMode', false)
     }
   },
   methods: {
@@ -68,16 +84,14 @@ export default {
           item[1]
         )
       })
-    }
-  },
-  watch: {
-    isDarkMode(value) {
+    },
+    handleIsDarkMode(value) {
       if (value) {
         this.changeTheme(this.dark)
         localStorage.setItem('color', 'dark')
       } else {
         this.changeTheme(this.light)
-        localStorage.setItem('color','light')
+        localStorage.setItem('color', 'light')
       }
     }
   }
