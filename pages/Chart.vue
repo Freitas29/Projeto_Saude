@@ -226,7 +226,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: var(--primary-color);
+  background-color: var(--main-color);
 }
 
 .animation-loading {

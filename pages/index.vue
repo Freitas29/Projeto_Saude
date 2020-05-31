@@ -192,10 +192,10 @@ export default {
 }
 
 #diferencial{
-  background-color: var(--second-color);
+  background-color: var(--main-color);
 
   h1{
-    color: var(--main-color);
+    color: var(--gray-text-color);
   }
 }
 

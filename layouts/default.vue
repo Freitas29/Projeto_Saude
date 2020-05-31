@@ -33,17 +33,17 @@ export default {
   data() {
     return {
       light: {
-        mainColor: '#1d3557',
-        primaryColor: '#2a5fe4',
+        mainColor: '#3F3D56',
+        primaryColor: '#6C63FF',
         secondColor: '#02c39a',
-        defaultColor: '#fff',
-        textColor: '#fff',
-        darkTextColor: '#1d3557',
+        defaultColor: '#E6E6E6',
+        textColor: '#E6E6E6',
+        darkTextColor: '#3F3D56',
         grayTextColor: '#d4f5ff',
-        navBarColor: '#1d3557'
+        navBarColor: '#3F3D56'
       },
       dark: {
-        mainColor: '#2a5fe4',
+        mainColor: '#3F3D56 ',
         primaryColor: '#000',
         secondColor: '#0b0a14',
         defaultColor: 'red',

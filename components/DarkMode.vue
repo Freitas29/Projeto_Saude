@@ -170,7 +170,7 @@ export default {
   mounted() {
     const el = document.documentElement
     el.style.setProperty('--background', '#ffe66d')
-    el.style.setProperty('background', '#f3ffbd')
+    el.style.setProperty('background', '#E6E6E6')
 
     var { night, sun } = this.$refs
 
@@ -210,7 +210,7 @@ export default {
       this.setUp(sun, night)
 
       el.style.setProperty('--background', '#ffe66d')
-      el.style.setProperty('background', '#f3ffbd')
+      el.style.setProperty('background', '#E6E6E6')
 
       gsap.to(sun, 1, { x: 0, opacity: 1, ease: Power1.easeInOut })
 
@@ -227,7 +227,7 @@ export default {
       this.setUp(sun, night)
 
       el.style.setProperty('--background', '#073b4c')
-      el.style.setProperty('background', '#264653')
+      el.style.setProperty('background', '#fff')
 
       gsap.to(sun, 1, { x: -35, opacity: 0, ease: Power1.easeInOut })
       gsap.to(night, 1, {
