@@ -45,10 +45,11 @@
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
-              interdum libero. Fusce posuere vel tortor sed maximus.
+              interdum libero. Fusce posuere vel tortor sed maximus. <br>
             </p>
+            <button class="botao">  <nuxt-link to="Chart"> Pesquisar  </nuxt-link></button>
           </div>
-        </el-col>
+        </el-col>        
       </el-row>
     </div>
 
@@ -143,8 +144,52 @@ export default {
       font-weight: 400;
       color: #1d3557;
     }
+
+    .botao{
+	-moz-box-shadow: 0px 0px 0px 2px #2A5FE4;
+	-webkit-box-shadow: 0px 0px 0px 2px #2A5FE4;
+	box-shadow: 0px 0px 0px 2px #2A5FE4;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2A5FE4), color-stop(1, #2a7ae4) );
+	background:-moz-linear-gradient( center top, #2A5FE4 5%, #2a7ae4 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e');
+	background-color:#2a7ae4;
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius-topleft:10px;
+	border-top-left-radius:10px;
+	-webkit-border-top-right-radius:10px;
+	-moz-border-radius-topright:10px;
+	border-top-right-radius:10px;
+	-webkit-border-bottom-right-radius:10px;
+	-moz-border-radius-bottomright:10px;
+	border-bottom-right-radius:10px;
+	-webkit-border-bottom-left-radius:10px;
+	-moz-border-radius-bottomleft:10px;
+	border-bottom-left-radius:10px;
+text-indent:0;
+	border:1px solid #2A5FE4;
+	display:inline-block;
+	color:#fff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+height:50px;
+	line-height:50px;
+width:140px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:0px 1px 0px #2a7ae4;
+}.classname:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2A5FE4), color-stop(1, #2a7ae4) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2');
+	background-color:#2A5FE4;
+}.classname:active {
+	position:relative;
+	top:1px;
+    }
+    }
   }
-}
+
 
 .apresentacao {
   background-color: #2a7ae4;
