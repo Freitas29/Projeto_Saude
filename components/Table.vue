@@ -142,7 +142,7 @@ export default {
       this.$store.dispatch('changeLoading', true)
 
       const { data } = await this.$axios.get(
-        'http://localhost:3001/seguradoras',
+        '/seguradoras',
         {
           params: {
             uf: vmo.$store.state.mapSelected.initials,
