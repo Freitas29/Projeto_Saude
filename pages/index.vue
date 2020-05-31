@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="apresentacao estilo" id="oQueSomos" >
+    <div class="apresentacao estilo" id="oQueSomos">
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos" v-scroll-reveal.reset="{ delay: 100 }">
@@ -13,7 +13,14 @@
           </div>
         </el-col>
 
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-scroll-reveal.reset="{ delay: 300 }">
+        <el-col
+          :xs="24"
+          :sm="24"
+          :md="12"
+          :lg="12"
+          :xl="12"
+          v-scroll-reveal.reset="{ delay: 300 }"
+        >
           <lottie-player
             src="https://assets10.lottiefiles.com/packages/lf20_ebikt2.json"
             background="transparent"
@@ -28,9 +35,9 @@
 
     <div class="mapa estilo" id="nossoProduto">
       <el-row>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" >
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <lottie-player
-          v-scroll-reveal.reset="{ delay: 150 }"
+            v-scroll-reveal.reset="{ delay: 150 }"
             src="https://assets5.lottiefiles.com/packages/lf20_3GdFaM.json"
             background="transparent"
             speed="1"
@@ -39,14 +46,19 @@
             autoplay
           />
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" >
+        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos" v-scroll-reveal.reset="{ delay: 300 }">
             <h1>Teste</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
-              interdum libero. Fusce posuere vel tortor sed maximus.
+              interdum libero. Fusce posuere vel tortor sed maximus. <br />
             </p>
+            <nuxt-link to="Chart">
+              <button class="botao">
+                Pesquisar
+              </button>
+            </nuxt-link>
           </div>
         </el-col>
       </el-row>
@@ -65,7 +77,7 @@
             autoplay
           />
 
-          <div class="textos" >
+          <div class="textos">
             <h1 v-scroll-reveal.reset="{ delay: 200 }">Teste</h1>
             <p v-scroll-reveal.reset="{ delay: 250 }">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -77,7 +89,7 @@
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos">
             <lottie-player
-            v-scroll-reveal.reset="{ delay: 150 }"
+              v-scroll-reveal.reset="{ delay: 150 }"
               src="https://assets6.lottiefiles.com/packages/lf20_pXBLg7.json"
               background="transparent"
               speed="1"
@@ -120,14 +132,17 @@ export default {
   text-align: center;
   position: relative;
 
-  #oQueSomos{
+  #oQueSomos {
     background-color: var(--primary-color);
   }
 
-  #nossoProduto{
+  #nossoProduto {
     background-color: var(--default-color);
   }
+}
 
+a{
+  cursor: pointer;
 }
 .mapa {
   background-color: var(--text-color);
@@ -151,6 +166,65 @@ export default {
       font-size: 30px;
       font-weight: 400;
       color: #1d3557;
+    }
+
+    .botao {
+      margin-top: 5rem;
+      -moz-box-shadow: 0px 0px 0px 2px #2a5fe4;
+      -webkit-box-shadow: 0px 0px 0px 2px #2a5fe4;
+      box-shadow: 0px 0px 0px 2px #2a5fe4;
+      background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.05, #2a5fe4),
+        color-stop(1, #2a7ae4)
+      );
+      background: -moz-linear-gradient(center top, #2a5fe4 5%, #2a7ae4 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e');
+      background-color: #2a7ae4;
+      -webkit-border-top-left-radius: 10px;
+      -moz-border-radius-topleft: 10px;
+      border-top-left-radius: 10px;
+      -webkit-border-top-right-radius: 10px;
+      -moz-border-radius-topright: 10px;
+      border-top-right-radius: 10px;
+      -webkit-border-bottom-right-radius: 10px;
+      -moz-border-radius-bottomright: 10px;
+      border-bottom-right-radius: 10px;
+      -webkit-border-bottom-left-radius: 10px;
+      -moz-border-radius-bottomleft: 10px;
+      border-bottom-left-radius: 10px;
+      text-indent: 0;
+      border: 1px solid #2a5fe4;
+      display: inline-block;
+
+      font-family: arial;
+      font-size: 15px;
+      font-weight: bold;
+      font-style: normal;
+      height: 50px;
+      line-height: 50px;
+      width: 140px;
+      text-decoration: none;
+      text-align: center;
+      text-shadow: 0px 1px 0px #2a7ae4;
+      color: #fff;
+    }
+    .classname:hover {
+      background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.05, #2a5fe4),
+        color-stop(1, #2a7ae4)
+      );
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2');
+      background-color: #2a5fe4;
+    }
+    .classname:active {
+      position: relative;
+      top: 1px;
     }
   }
 }
@@ -191,10 +265,10 @@ export default {
   }
 }
 
-#diferencial{
+#diferencial {
   background-color: var(--main-color);
 
-  h1{
+  h1 {
     color: var(--gray-text-color);
   }
 }
