@@ -80,13 +80,6 @@ export default {
     this.$root.$on('stateClicked', this.handleStateClicked)
     this.$root.$on('insuranceCompanySelected', this.handleInsuranceCompany)
 
-    gapi.load('client:auth2', function() {
-      gapi.auth2.init({
-        client_id:
-          '963954958594-6pageg21t18elik8up5nr2k2f0h2a4u8.apps.googleusercontent.com',
-        scope: 'https://www.googleapis.com/auth/bigquery.readonly'
-      })
-    })
   },
   created() {
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
