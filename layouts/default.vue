@@ -2,6 +2,7 @@
   <div>
     <NavBar />
     <nuxt />
+    <Chatbot />
     <DarkMode class="theme-mode" />
   </div>
 </template>
@@ -9,12 +10,14 @@
 <script>
 import NavBar from '../components/NavBar'
 import DarkMode from '../components/DarkMode'
+import Chatbot from '../components/Chatbot/Chatbot'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     NavBar,
-    DarkMode
+    DarkMode,
+    Chatbot
   },
   mounted() {
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
