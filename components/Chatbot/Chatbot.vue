@@ -1,18 +1,20 @@
 <template>
     <div class="wrapper">
         <div class="chatbot">
-            <Message text="Edson" />
-            <Message text="Edson" />
-            <Message text="Edson" />
-            <Message text="Edson" />
-            <Message text="Edson" />
-            <Message text="Edson" />
-            <Message text="Edson" />
-            <Message text="Oi, Edson" type="question"/>
-            <Message text="Oi, Edson" type="question"/>
-            <Message text="Oi, Edson" type="question"/>
-            <Message text="Oi, Edson" type="question"/>
-            <Message text="Oi, Edson" type="question"/>
+            <ul class="body">
+                <Message text="Edson" />
+                <Message text="Edson" />
+                <Message text="Edson" />
+                <Message text="Edson" />
+                <Message text="Edson" />
+                <Message text="Edson" />
+                <Message text="Edson" />
+                <Message text="Oi, Edson" type="question"/>
+                <Message text="Oi, Edson" type="question"/>
+                <Message text="Oi, Edson" type="question"/>
+                <Message text="Oi, Edson" type="question"/>
+                <Message text="Oi, Edson" type="question"/>
+            </ul>
         </div>
     </div>
 </template>
@@ -52,6 +54,13 @@ $bot-height: 400px;
         overflow-y: scroll;
         background-color: $chat-background;
         border-radius: $border;
+
+        .body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
 
         &::-webkit-scrollbar {
             width: 0.6em;

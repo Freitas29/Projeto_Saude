@@ -1,7 +1,7 @@
 <template>
-    <div :class="['message', type]">
+    <li :class="['message', type]">
         <p>{{ text }}</p>
-    </div>
+    </li>
 </template>
 
 <script>
@@ -47,6 +47,7 @@ $question-font-color: #F5F7FB;
 .question {
     position: relative;
     right: 0;
+    float: right;
     background-color: $question-color;
     color: $question-font-color;
 }
