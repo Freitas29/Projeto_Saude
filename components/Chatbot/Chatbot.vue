@@ -1,6 +1,7 @@
 <template>
-    <div :class="chatClass" @click="expand">
-        <i :class="iconChatClass" />
+    <div :class="chatClass">
+        <div class="wrapper-click" @click="expand" v-if="!chatIsOpen"/>
+        <i :class="iconChatClass" @click="expand"/>
         <div class="chatbot" v-if="chatIsOpen">
             <ul class="body">
                 <Message text="Edson" />
@@ -42,7 +43,7 @@ export default {
         }
     },
     methods: {
-        expand() {
+        expand(value) {
             this.chatIsOpen = !this.chatIsOpen
         }
     }
@@ -60,6 +61,13 @@ $bot-height-normal: 60px;
 $chat-background-normal: #CCCCCC;
 
 $animation-delay: 0.4s;
+
+.wrapper-click {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border-radius: $border;
+}
 
 .close {
     float: right;
