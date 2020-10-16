@@ -33,8 +33,8 @@ export default {
 <style lang="scss" scoped>
 $border: 12px;
 $chat-background: #F5F7FB;
-$bot-width:  300px;
-$bot-height: 400px;
+$bot-width:  320px;
+$bot-height: 420px;
 
 
 .wrapper {
@@ -42,14 +42,17 @@ $bot-height: 400px;
     bottom: 10px;
     right: 20px;
     width: $bot-width;
+    padding: 2px;
+    background-color: $chat-background;
     height: $bot-height;
     border-radius: $border;
+    
     z-index: 10;
 
     .chatbot {
-        padding: 14px;
+        padding: 20px;
         position: relative;
-        width: 100%;
+        width: 99%;
         height: 100%;
         overflow-y: scroll;
         background-color: $chat-background;
@@ -63,8 +66,7 @@ $bot-height: 400px;
         }
 
         &::-webkit-scrollbar {
-            width: 0.6em;
-            height: 30px;
+            width: 0.4em;
         }
 
         &::-webkit-scrollbar-thumb {
