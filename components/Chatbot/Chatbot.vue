@@ -57,6 +57,9 @@ $bot-height: 420px;
 
 $bot-width-normal: 60px;
 $bot-height-normal: 60px;
+$chat-background-normal: #CCCCCC;
+
+$animation-delay: 0.4s;
 
 .close {
     float: right;
@@ -75,6 +78,7 @@ $bot-height-normal: 60px;
     background-color: $chat-background;
     height: $bot-height;
     border-radius: $border;
+    transition: all $animation-delay;
     
     z-index: 10;
 
@@ -109,11 +113,13 @@ $bot-height-normal: 60px;
     width: $bot-width-normal;
     height: $bot-height-normal;
     border-radius: 100%;
+    background-color: $chat-background-normal;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 30px;
+    transition: all $animation-delay;
     cursor: pointer;
 }
 </style>
