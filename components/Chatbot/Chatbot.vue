@@ -2,7 +2,7 @@
     <div :class="chatClass">
         <div class="wrapper-click" @click="expand" v-if="!chatIsOpen"/>
         <i :class="iconChatClass" @click="expand"/>
-        <div class="chatbot" v-if="chatIsOpen">
+        <div class="chatbot" v-if="chatIsOpen" ref="chat">
             <ul class="body">
                 <Message :text="message.value" :type="message.type" v-for="(message, index) in messages" :key="index" />
             </ul>
@@ -46,15 +46,21 @@ export default {
             this.chatIsOpen = !this.chatIsOpen
         },
         sendMessage(){
+            const vmo = this;
             if(this.message === "") return
 
             this.$store.commit('updateMessages', {value: this.message, type: "question" })
-
-            setTimeout(() => {
-                this.$store.commit('updateMessages', {value: "Oi, testeando", type: "answer"})
-            }, 500)
+     
+            this.scrollChat()
 
             this.message = ""
+        },
+        scrollChat() {
+            const chatEl = this.$refs.chat
+            
+            setTimeout(() => {
+                chatEl.scrollTo(0, chatEl.scrollHeight)
+            }, 250)
         }
     },
     watch: {
@@ -145,6 +151,7 @@ $animation-delay: 0.4s;
         width: 99%;
         height: 92%;
         overflow-y: scroll;
+        scroll-behavior: smooth;
         background-color: $chat-background;
         border-radius: $border;
 
