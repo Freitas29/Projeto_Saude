@@ -1,0 +1,10 @@
+{
+    "env": {
+      "BASE_URL": "https://saude-backend.herokuapp.com"
+    },
+    "build": {
+        "env": {
+            "BASE_URL": "https://saude-backend.herokuapp.com"
+        }
+      }
+  }
