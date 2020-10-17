@@ -97,7 +97,6 @@ export default {
       }
 
       if (mutation.type === 'changeModalGrowthClose') {
-        debugger
         this.prospChart ={}
       }
     })

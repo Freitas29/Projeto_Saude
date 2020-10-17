@@ -12,7 +12,7 @@
 
 <script>
 import { Line } from 'vue-chartjs'
-import { sleep, objectIsEmpty } from '../shared/utils'
+import { sleep, objectIsEmpty, formatDatePtBr } from '@/shared/utils'
 
 export default {
   extends: Line,
@@ -37,6 +37,9 @@ export default {
   methods: {
     handleGrowth(data) {
       this.modalVisible = data.length > 0 ? true : false
+    },
+    formatDate(dates) {
+      return dates.map(date => formatDatePtBr(new Date(date))) 
     }
   },
   watch: {
@@ -57,7 +60,7 @@ export default {
 
       this.renderChart(
         {
-          labels: value.labels,
+          labels: this.formatDate(value.labels),
           datasets: [...value.data]
         },
         { responsive: true, maintainAspectRatio: false }
