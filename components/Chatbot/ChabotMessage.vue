@@ -33,6 +33,7 @@ $question-font-color: #F5F7FB;
     border-radius: 6px;
     margin: 5px 0;
     position: absolute;
+    display: flex;
 
     p {
         font-family: 'Balsamiq Sans', cursive;
