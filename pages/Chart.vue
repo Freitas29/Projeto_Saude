@@ -60,6 +60,15 @@ export default {
     Table,
     Modal
   },
+  head() {
+    return {
+      title: 'Health Planning',
+      meta: [
+        { hid: 'description', name: 'description', content: 'Encontre as seguradoras para a sua região' },
+        { property: 'og:image', content: "@/assets/pingo.png" || '' }
+      ]
+    }
+  },
   data() {
     return {
       dialogVisible: false,

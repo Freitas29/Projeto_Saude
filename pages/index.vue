@@ -122,6 +122,15 @@ import '@lottiefiles/lottie-player'
 export default {
   components: {
     Logo
+  },
+  head() {
+    return {
+      title: 'Health Planning',
+      meta: [
+        { hid: 'description', name: 'description', content: 'Buscamos os melhores planos de saúde por cada região do Brasil' },
+        { property: 'og:image', content: "@/assets/pingo.png" || '' }
+      ]
+    }
   }
 }
 </script>
