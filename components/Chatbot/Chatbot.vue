@@ -5,18 +5,12 @@
         <div class="chatbot" v-if="chatIsOpen">
             <ul class="body">
                 <Message text="Edson" />
-                <Message text="Edson" />
-                <Message text="Edson" />
-                <Message text="Edson" />
-                <Message text="Edson" />
-                <Message text="Edson" />
-                <Message text="Edson" />
-                <Message text="Oi, Edson" type="question"/>
-                <Message text="Oi, Edson" type="question"/>
-                <Message text="Oi, Edson" type="question"/>
-                <Message text="Oi, Edson" type="question"/>
                 <Message text="Oi, Edson" type="question"/>
             </ul>
+        </div>
+        <div class="footer" v-if="chatIsOpen">
+            <input class="input-chat"/>
+            <el-button class="send-message" type="primary" icon="el-icon-position" plain size="mini" round/>
         </div>
     </div>
 </template>
@@ -52,7 +46,7 @@ export default {
 
 <style lang="scss" scoped>
 $border: 12px;
-$chat-background: #F5F7FB;
+$chat-background: #3F3D56;
 $bot-width:  320px;
 $bot-height: 420px;
 
@@ -61,6 +55,32 @@ $bot-height-normal: 60px;
 $chat-background-normal: #CCCCCC;
 
 $animation-delay: 0.4s;
+
+.footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 35px;
+    display: flex;
+    padding: 5px 15px;
+    align-items: center;
+    justify-content: space-around;
+
+    .input-chat {
+        width: 100%;
+        height: 110%;
+        border: none;
+        outline: none;
+        border-radius: $border;
+        padding: 5px;
+        font-size: 14px;
+    }
+}
+
+.send-message{
+    margin-left: 7px;
+    font-size: 15px;
+}
 
 .wrapper-click {
     height: 100%;
@@ -75,6 +95,7 @@ $animation-delay: 0.4s;
     margin-top: 10px;
     font-size: 22px;
     cursor: pointer;
+    color: #fff;
 }
 
 .wrapper {
