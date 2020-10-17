@@ -37,7 +37,7 @@ export default {
     return {
       light: {
         mainColor: '#3F3D56',
-        primaryColor: '#6C63FF',
+        primaryColor: '#1d3557',
         secondColor: '#02c39a',
         defaultColor: '#E6E6E6',
         textColor: '#E6E6E6',

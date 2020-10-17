@@ -21,14 +21,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$weight: 600;
-$question-color: #403D56;
+$weight: bold;
+$question-color: #2A7AE4;
 $question-font-color: #F5F7FB;
 
 .message {
     width: 80%;
     padding: 10px;
-    background-color: #FFF;
+    background-color: #02C39A;
+    color: #F5F7FB;
     border-radius: 6px;
     margin: 5px 0;
     position: absolute;
