@@ -8,7 +8,7 @@
             </ul>
         </div>
         <div class="footer" v-if="chatIsOpen">
-            <input class="input-chat" v-model="message" @keydown.enter.prevent="sendMessage"/>
+            <input ref="inputMessage" class="input-chat" v-model="message" @keydown.enter.prevent="sendMessage"/>
             <el-button @click="sendMessage" class="send-message" type="primary" icon="el-icon-position" plain size="mini" round/>
         </div>
     </div>
@@ -55,6 +55,15 @@ export default {
             }, 500)
 
             this.message = ""
+        }
+    },
+    watch: {
+        chatIsOpen(isOpen) {
+            if(isOpen){
+                setTimeout(() => {
+                    this.$refs.inputMessage.focus()
+                }, 500)
+            }
         }
     }
 }
