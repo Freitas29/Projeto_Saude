@@ -4,20 +4,19 @@
         <i :class="iconChatClass" @click="expand"/>
         <div class="chatbot" v-if="chatIsOpen">
             <ul class="body">
-                <Message text="Edson" />
-                <Message text="Oi, Edson" type="question"/>
+                <Message :text="message.value" :type="message.type" v-for="(message, index) in messages" :key="index" />
             </ul>
         </div>
         <div class="footer" v-if="chatIsOpen">
-            <input class="input-chat"/>
-            <el-button class="send-message" type="primary" icon="el-icon-position" plain size="mini" round/>
+            <input class="input-chat" v-model="message" @keydown.enter.prevent="sendMessage"/>
+            <el-button @click="sendMessage" class="send-message" type="primary" icon="el-icon-position" plain size="mini" round/>
         </div>
     </div>
 </template>
 
 <script>
 import Message from './ChabotMessage'
-
+import { mapState } from 'vuex'
 export default {
     name: "Chatbot",
     components: {
@@ -26,9 +25,15 @@ export default {
     data() {
         return {
             chatIsOpen: false,
+            message: ''
         }
     },
     computed: {
+        ...mapState({
+            messages: state => {
+                return state.messages
+            }
+        }),
         chatClass(){
             return ['wrapper', this.chatIsOpen ? 'expand' : 'normal']
         },
@@ -39,6 +44,17 @@ export default {
     methods: {
         expand(value) {
             this.chatIsOpen = !this.chatIsOpen
+        },
+        sendMessage(){
+            if(this.message === "") return
+
+            this.$store.commit('updateMessages', {value: this.message, type: "question" })
+
+            setTimeout(() => {
+                this.$store.commit('updateMessages', {value: "Oi, testeando", type: "answer"})
+            }, 500)
+
+            this.message = ""
         }
     }
 }
@@ -106,6 +122,7 @@ $animation-delay: 0.4s;
     right: 20px;
     width: $bot-width;
     padding: 2px;
+    padding-bottom: 40px;
     background-color: $chat-background;
     height: $bot-height;
     border-radius: $border;
@@ -127,6 +144,7 @@ $animation-delay: 0.4s;
             margin: 0;
             padding: 0;
             position: relative;
+            height: 100%;
         }
 
         &::-webkit-scrollbar {
@@ -134,7 +152,7 @@ $animation-delay: 0.4s;
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: #403D56;
+            background-color: #02C39A;
             border-radius: $border;
         }
     }
@@ -148,6 +166,8 @@ $animation-delay: 0.4s;
     text-align: center;
     display: flex;
     align-items: center;
+    padding-bottom: initial;
+
     justify-content: center;
     font-size: 30px;
     transition: all $animation-delay;
