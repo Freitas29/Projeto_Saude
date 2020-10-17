@@ -87,7 +87,7 @@ $animation-delay: 0.4s;
     height: $bot-height;
     border-radius: $border;
     transition: all $animation-delay;
-    
+    box-shadow: 0px 1px 3px rgb(63, 61, 86), 0px 1px 2px rgb(63, 61, 86);
     z-index: 10;
 
     .chatbot {
