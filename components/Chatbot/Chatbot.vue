@@ -68,6 +68,7 @@ export default {
             if(isOpen){
                 setTimeout(() => {
                     this.$refs.inputMessage.focus()
+                    this.scrollChat()
                 }, 500)
             }
         }
