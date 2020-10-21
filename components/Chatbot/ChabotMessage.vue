@@ -1,6 +1,7 @@
 <template>
     <li :class="['message', type]">
-        <p>{{ text }}</p>
+        <p v-if="!isLoading">{{ text }}</p>
+        <i :class="text" v-if="isLoading"/>
     </li>
 </template>
 
@@ -15,6 +16,10 @@ export default {
         type: {
             type: String,
             default: () => "answer"
+        },
+        isLoading: {
+            type: Boolean,
+            default: false
         }
     }
 }

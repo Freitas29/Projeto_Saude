@@ -5,6 +5,7 @@
         <div class="chatbot" v-if="chatIsOpen" ref="chat">
             <ul class="body">
                 <Message :text="message.value" :type="message.type" v-for="(message, index) in messages" :key="index" />
+                <Message v-if="loading" :isLoading="loading" text="el-icon-more" />
             </ul>
         </div>
         <div class="footer" v-if="chatIsOpen">
@@ -29,6 +30,7 @@ export default {
             chatIsOpen: false,
             message: '',
             waitingResponse: false,
+            loading: false,
             buildText: () => {}
         }
     },
@@ -85,13 +87,16 @@ export default {
         },
         async sendMessage(){
             const message = this.message
+            if(message === "") return
+
+            this.loading = true
 
             if(this.waitingResponse) {
                 await this.buildReponse(message)
+                this.loading = false
                 return
             }
 
-            if(message === "") return
 
             this.$store.commit('updateMessages', { value: message, type: "question" })
 
@@ -100,6 +105,8 @@ export default {
             this.scrollChat()
 
             await this.showResponse(message)
+
+            this.loading = false
         },
         sendBotMessage(message, delay = 500){
              setTimeout(() => {
