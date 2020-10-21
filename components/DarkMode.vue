@@ -174,8 +174,6 @@ export default {
 
     var { night, sun } = this.$refs
 
-    debugger
-
     if (!this.isDarkMode) {
       sun.style.opacity = 1
       night.style.opacity = 0

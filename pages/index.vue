@@ -4,11 +4,10 @@
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos" v-scroll-reveal.reset="{ delay: 100 }">
-            <h1>Teste</h1>
+            <h1>Health Planning</h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
-              interdum libero. Fusce posuere vel tortor sed maximus.
+              Buscamos os melhores planos de saúde por cada região do Brasil,
+              visando os melhores preços e serviços prestados.
             </p>
           </div>
         </el-col>
@@ -34,8 +33,16 @@
     </div>
 
     <div class="mapa estilo" id="nossoProduto">
-      <el-row>
-        <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+      <el-row type="flex">
+        <el-col
+          :xs="24"
+          :sm="24"
+          :md="12"
+          :lg="12"
+          :xl="12"
+          style="display: flex; alignalign-items: center;
+          justify-content: center; display: flex;"
+        >
           <lottie-player
             v-scroll-reveal.reset="{ delay: 150 }"
             src="https://assets5.lottiefiles.com/packages/lf20_3GdFaM.json"
@@ -48,11 +55,10 @@
         </el-col>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <div class="textos" v-scroll-reveal.reset="{ delay: 300 }">
-            <h1>Teste</h1>
+            <h1>Diferencial</h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
-              interdum libero. Fusce posuere vel tortor sed maximus. <br />
+              Comparações entre planos de saúde, verificamos dados regionais
+              para dar mais confiança na sua contratação. <br />
             </p>
             <nuxt-link to="Chart">
               <button class="botao">
@@ -78,11 +84,10 @@
           />
 
           <div class="textos">
-            <h1 v-scroll-reveal.reset="{ delay: 200 }">Teste</h1>
+            <h1 v-scroll-reveal.reset="{ delay: 200 }">Objetivo</h1>
             <p v-scroll-reveal.reset="{ delay: 250 }">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
-              interdum libero. Fusce posuere vel tortor sed maximus.
+              Oferecer informações e recomendações sobre os planos de saúde vigentes
+              na região do usuário.
             </p>
           </div>
         </el-col>
@@ -98,11 +103,10 @@
               autoplay
             />
 
-            <h1 v-scroll-reveal.reset="{ delay: 200 }">Teste</h1>
+            <h1 v-scroll-reveal.reset="{ delay: 200 }">Missão</h1>
             <p v-scroll-reveal.reset="{ delay: 250 }">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse eu placerat felis, quis lobortis nisi. Nunc ut
-              interdum libero. Fusce posuere vel tortor sed maximus.
+              Trazer o melhor plano para o cliente com uma unidade mais próxima
+              da sua residência.
             </p>
           </div>
         </el-col>
@@ -141,7 +145,7 @@ export default {
   }
 }
 
-a{
+a {
   cursor: pointer;
 }
 .mapa {
@@ -154,6 +158,7 @@ a{
     width: 100%;
     position: relative;
     color: #1d3557;
+    padding-right: 3rem;
 
     h1 {
       font-size: 50px;
@@ -173,6 +178,8 @@ a{
       -moz-box-shadow: 0px 0px 0px 2px #2a5fe4;
       -webkit-box-shadow: 0px 0px 0px 2px #2a5fe4;
       box-shadow: 0px 0px 0px 2px #2a5fe4;
+      cursor: pointer;
+      transition: all .3s;
       background: -webkit-gradient(
         linear,
         left top,
@@ -211,18 +218,10 @@ a{
       text-shadow: 0px 1px 0px #2a7ae4;
       color: #fff;
     }
-    .classname:hover {
-      background: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0.05, #2a5fe4),
-        color-stop(1, #2a7ae4)
-      );
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2');
-      background-color: #2a5fe4;
+    .botao:hover {
+      opacity: 0.7;
     }
-    .classname:active {
+    .botao:active {
       position: relative;
       top: 1px;
     }
@@ -237,6 +236,7 @@ a{
     width: 100%;
     position: relative;
     color: var(--text-color);
+    padding-left: 3rem;
 
     h1 {
       font-size: 50px;
@@ -270,6 +270,10 @@ a{
 
   h1 {
     color: var(--gray-text-color);
+  }
+
+  .textos {
+    padding-right: 3rem;
   }
 }
 
