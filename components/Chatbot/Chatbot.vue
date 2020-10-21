@@ -17,6 +17,8 @@
 <script>
 import Message from './ChabotMessage'
 import { mapState } from 'vuex'
+import axios from 'axios'
+
 export default {
     name: "Chatbot",
     components: {
@@ -25,7 +27,8 @@ export default {
     data() {
         return {
             chatIsOpen: false,
-            message: ''
+            message: '',
+            waitingResponse: false
         }
     },
     computed: {
@@ -39,21 +42,81 @@ export default {
         },
         iconChatClass() {
             return this.chatIsOpen ? 'el-icon-close close' : 'el-icon-chat-round'
+        },
+        pesquisa() {
+            return {
+                "Ok, aguarde só um momento enquanto pesquiso as informações": this.getPriceInsuranceCompany
+            }
         }
     },
     methods: {
         expand(value) {
             this.chatIsOpen = !this.chatIsOpen
         },
-        sendMessage(){
-            const vmo = this;
-            if(this.message === "") return
+        clearInputMessage() {
+            this.message = ""
+        },
+        async sendMessage(){
+            const message = this.message
 
-            this.$store.commit('updateMessages', {value: this.message, type: "question" })
+            if(this.waitingResponse) {
+                this.$store.commit('updateMessages', { value: message, type: "question" })
+
+                this.clearInputMessage()            
+ 
+                const response = await this.callAfterResponse(message)
+                
+                this.sendBotMessage(response)
+
+                this.waitingResponse = false
+                
+                return
+            }
+
+            if(message === "") return
+
+            this.$store.commit('updateMessages', { value: message, type: "question" })
+
+            this.clearInputMessage()
      
             this.scrollChat()
 
-            this.message = ""
+            await this.showResponse(message)
+        },
+        sendBotMessage(message, delay = 500){
+             setTimeout(() => {
+                this.$store.commit('updateMessages', { value: message, type: "answer" })
+                this.scrollChat()
+            }, 500)
+        },
+        async getPriceInsuranceCompany() {
+            this.sendBotMessage("Por favor, informe o nome da seguradora")
+            this.waitingResponse = true
+            this.callAfterResponse = this.getPrice
+        },
+        async getPrice(message) {
+            const { data } = await this.$axios.get(`/price?name=${message}`)
+
+            return data
+        },
+        async showResponse(message) {
+            const { resposta } = await this.findWord(message);
+            
+            if(resposta.includes("Desculpe")){
+                this.sendBotMessage(resposta)
+                return
+            }
+            const response = this.pesquisa[resposta]
+
+            if(response){
+                await response()
+            }
+        },
+        async findWord(message) {
+            // necessário trocar para pegar do .env
+            const { data } = await axios.get(`http://127.0.0.1:3001/question?pergunta=${message}`)
+
+            return data
         },
         scrollChat() {
             const chatEl = this.$refs.chat
