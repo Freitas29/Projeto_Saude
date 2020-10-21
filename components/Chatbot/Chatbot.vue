@@ -28,7 +28,8 @@ export default {
         return {
             chatIsOpen: false,
             message: '',
-            waitingResponse: false
+            waitingResponse: false,
+            buildText: () => {}
         }
     },
     computed: {
@@ -56,20 +57,37 @@ export default {
         clearInputMessage() {
             this.message = ""
         },
+        buildTextAfterResponse(response) {
+            if(Array.isArray(response)){
+                return this.buildText(response)
+            }
+        },
+        buildTextPriceInformation(response) {
+            const texts = response.map(info => 
+                    `Idade: ${info.idade}
+                    Preços: ${info.preco}
+                `
+            )
+            return texts.join('\n')
+        },
+        async buildReponse(message){
+            this.$store.commit('updateMessages', { value: message, type: "question" })
+
+            this.clearInputMessage()            
+
+            const response = await this.callAfterResponse(message)
+            
+            const text = this.buildTextAfterResponse(response)
+            
+            this.sendBotMessage(text)
+
+            this.waitingResponse = false
+        },
         async sendMessage(){
             const message = this.message
 
             if(this.waitingResponse) {
-                this.$store.commit('updateMessages', { value: message, type: "question" })
-
-                this.clearInputMessage()            
- 
-                const response = await this.callAfterResponse(message)
-                
-                this.sendBotMessage(response)
-
-                this.waitingResponse = false
-                
+                await this.buildReponse(message)
                 return
             }
 
@@ -93,6 +111,7 @@ export default {
             this.sendBotMessage("Por favor, informe o nome da seguradora")
             this.waitingResponse = true
             this.callAfterResponse = this.getPrice
+            this.buildText =  this.buildTextPriceInformation
         },
         async getPrice(message) {
             const { data } = await this.$axios.get(`/price?name=${message}`)
