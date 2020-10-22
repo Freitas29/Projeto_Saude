@@ -4,8 +4,8 @@
         <i :class="iconChatClass" @click="expand"/>
         <div class="chatbot" v-if="chatIsOpen" ref="chat">
             <ul class="body">
-                <Message :text="message.value" :type="message.type" v-for="(message, index) in messages" :key="index" />
-                <Message v-if="loading" :isLoading="loading" text="el-icon-more" />
+                <Message :text="message.value" :selection="message.selection" :type="message.type" v-for="(message, index) in messages" :key="index" />
+                <Message v-if="loading" :isLoading="loading" text="el-icon-more"  />
             </ul>
         </div>
         <div class="footer" v-if="chatIsOpen">
@@ -48,7 +48,9 @@ export default {
         },
         pesquisa() {
             return {
-                "Ok, aguarde só um momento enquanto pesquiso as informações": this.getPriceInsuranceCompany
+                "Ok, aguarde só um momento enquanto pesquiso as informações": this.getPriceInsuranceCompany,
+                "sintomas": this.getSymptoms,
+                "O que gostaria de saber sobre o Covid-19": this.infoAboutCovid
             }
         }
     },
@@ -71,6 +73,64 @@ export default {
                 `
             )
             return texts.join('\n')
+        },
+        buildTextMundo(response) {
+            const text = `Total no mundo
+
+                Casos: ${this.formatNumbers(response.cases)}
+
+                Confirmados: ${this.formatNumbers(response.confirmed)}
+                
+                Mortes: ${this.formatNumbers(response.deaths)}
+                
+                Recuperados: ${this.formatNumbers(response.recovered)}
+            `
+            return text
+        },
+        formatNumbers(number) {
+            return Number(number).toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.');
+        },
+        buildTextAfterResponseAboutCovid(options) {
+            options.map(option => this.sendBotMessage(option, 500, this.callAfterClick))
+        },
+        async callAfterClick(selected) {
+            const word = selected.toLowerCase()
+            const opcoes = ['mundo', 'brasil', 'sintomas', 'prevenção']
+            
+            const request = opcoes.find(item => word.includes(item))
+            
+            this.loading = true
+
+            if(!request){
+                this.loading = false
+                this.$store.commit('removeListening')
+                return
+            }
+            
+            await this[request]()
+
+            this.loading = false
+            
+            this.$store.commit('removeListening')
+        },
+        async mundo() {
+            const { data } = await axios.get("https://covid19-brazil-api.now.sh/api/report/v1/countries")
+            
+            const result = data.data.reduce((acc, curr) => ({
+                cases: acc.cases + curr.cases,
+                confirmed: acc.cases + curr.cases,
+                deaths: acc.deaths + curr.deaths,
+                recovered: acc.recovered + curr.recovered
+            }))
+
+            this.sendBotMessage(this.buildTextMundo(result))
+        },
+        async infoAboutCovid(response) {
+            const [ about, ...options ] = response
+            this.sendBotMessage(about)
+
+            this.buildTextAfterResponseAboutCovid(options)
+            
         },
         async buildReponse(message){
             this.$store.commit('updateMessages', { value: message, type: "question" })
@@ -108,9 +168,9 @@ export default {
 
             this.loading = false
         },
-        sendBotMessage(message, delay = 500){
+        sendBotMessage(message, delay = 500, selection){
              setTimeout(() => {
-                this.$store.commit('updateMessages', { value: message, type: "answer" })
+                this.$store.commit('updateMessages', { value: message, type: "answer", selection })
                 this.scrollChat()
             }, 500)
         },
@@ -132,10 +192,12 @@ export default {
                 this.sendBotMessage(resposta)
                 return
             }
-            const response = this.pesquisa[resposta]
+
+            const botResponse = Array.isArray(resposta) ? resposta[0] : resposta
+            const response = this.pesquisa[botResponse]
 
             if(response){
-                await response()
+                await response(resposta)
             }
         },
         async findWord(message) {
