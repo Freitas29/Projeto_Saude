@@ -106,12 +106,13 @@ export default {
                 this.$store.commit('removeListening')
                 return
             }
+            this.$store.commit('removeListening')
             
             await this[request]()
 
             this.loading = false
             
-            this.$store.commit('removeListening')
+            
         },
         async mundo() {
             const { data } = await axios.get("https://covid19-brazil-api.now.sh/api/report/v1/countries")
