@@ -1,5 +1,5 @@
 <template>
-    <li :class="['message', type]">
+    <li :class="['message', type]" @click="handleSelection">
         <p v-if="!isLoading">{{ text }}</p>
         <i :class="text" v-if="isLoading"/>
     </li>
@@ -20,6 +20,16 @@ export default {
         isLoading: {
             type: Boolean,
             default: false
+        },
+        selection: {
+            type: [ Boolean, Function ]
+        }
+    },
+    methods: {
+        handleSelection() {
+            if(this.selection){
+                this.selection(this.text)
+            }
         }
     }
 }
