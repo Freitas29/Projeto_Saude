@@ -45,8 +45,8 @@ export default {
 $weight: bold;
 $question-color: #2A7AE4;
 $question-font-color: #F5F7FB;
-$selection-color: #F5F7FB;
-$selection-font-color: #2A7AE4;
+$selection-color: #6C63FF;
+$selection-font-color: #F5F7FB;
 
 .message {
     width: 80%;
