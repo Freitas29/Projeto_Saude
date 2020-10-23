@@ -74,8 +74,8 @@ export default {
             )
             return texts.join('\n')
         },
-        buildTextMundo(response) {
-            const text = `Total no mundo
+        infoCovid(response, type = "Mundo") {
+            return `Total no ${type}
 
                 Casos: ${this.formatNumbers(response.cases)}
 
@@ -85,7 +85,12 @@ export default {
                 
                 Recuperados: ${this.formatNumbers(response.recovered)}
             `
-            return text
+        },
+        buildTextMundo(response) {
+            return this.infoCovid(response)
+        },
+        buildTextBrasil(response) {
+            return this.infoCovid(response, "Brasil")
         },
         buildTextSintomas(response) {
             const text = response.map(sintoma => `${sintoma.includes(":") ? '\n' + sintoma  : sintoma}`)
@@ -135,6 +140,10 @@ export default {
             const { data } = await this.$axios("/sintomas")
 
             this.sendBotMessage(this.buildTextSintomas(data))
+        },
+        async brasil() {
+            const { data } = await axios.get('https://covid19-brazil-api.now.sh/api/report/v1/brazil')
+            this.sendBotMessage(this.buildTextBrasil(data.data)) 
         },
         async infoAboutCovid(response) {
             const [ about, ...options ] = response
