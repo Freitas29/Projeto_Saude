@@ -63,6 +63,9 @@ export default {
         },
         buildTextAfterResponse(response) {
             if(Array.isArray(response)){
+                if(response.length === 0){
+                    return "Desculpe, não encontrei essa seguradora"
+                }
                 return this.buildText(response)
             }
         },
