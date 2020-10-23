@@ -87,6 +87,11 @@ export default {
             `
             return text
         },
+        buildTextSintomas(response) {
+            const text = response.map(sintoma => `${sintoma.includes(":") ? '\n' + sintoma  : sintoma}`)
+
+            return text.join('\n')
+        },
         formatNumbers(number) {
             return Number(number).toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.');
         },
@@ -125,6 +130,11 @@ export default {
             }))
 
             this.sendBotMessage(this.buildTextMundo(result))
+        },
+        async sintomas() {
+            const { data } = await this.$axios("/sintomas")
+
+            this.sendBotMessage(this.buildTextSintomas(data))
         },
         async infoAboutCovid(response) {
             const [ about, ...options ] = response
