@@ -100,6 +100,11 @@ export default {
 
             return text.join('\n')
         },
+        buildTextPrevencao(response) {
+            const text = response.map(prevencao => `${prevencao.includes(".") ? '\n' + prevencao  : prevencao}`)
+
+            return text.join('\n')
+        },
         formatNumbers(number) {
             return Number(number).toFixed(3).replace(/\d(?=(\d{3})+\.)/g, '$&.');
         },
@@ -121,7 +126,11 @@ export default {
             }
             this.$store.commit('removeListening')
             
-            await this[request]()
+            if(request === "prevenção"){
+                await this.prevencao()
+            }else{
+                await this[request]()
+            }
 
             this.loading = false
             
@@ -138,6 +147,11 @@ export default {
             }))
 
             this.sendBotMessage(this.buildTextMundo(result))
+        },
+        async prevencao() {
+            const { data } = await this.$axios("/prevencao")
+
+            this.sendBotMessage(this.buildTextPrevencao(data))
         },
         async sintomas() {
             const { data } = await this.$axios("/sintomas")
