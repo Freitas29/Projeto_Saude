@@ -235,6 +235,8 @@ export default {
 
             if(response){
                 await response(resposta)
+            }else{
+                this.sendBotMessage(resposta)
             }
         },
         async findWord(message) {
