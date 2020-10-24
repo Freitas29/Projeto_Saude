@@ -3,6 +3,7 @@ export const state = () => ({
     insuranceCompanySelected: [],
     chartGrowthData: [],
     mapSelected: {},
+    messages: [{value: "Oi, meu nome é chatbot, o que você deseja saber?", type: "answer"}],
     insuranceCompanies: [],
     isInsuranceCompany: false,
     county: "",
@@ -44,6 +45,14 @@ export const mutations = {
 
     changeModalGrowthClose(state){
         state.chartGrowthData = []
+    },
+
+    updateMessages(state, payload) {
+        state.messages = [...state.messages, payload]
+    },
+
+    removeListening(state){
+        state.messages = [...state.messages].filter(message => !message.selection)
     }
 }
 
