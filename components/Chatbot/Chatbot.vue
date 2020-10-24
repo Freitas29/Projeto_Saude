@@ -240,8 +240,7 @@ export default {
             }
         },
         async findWord(message) {
-            // necessário trocar para pegar do .env
-            const { data } = await axios.get(`http://127.0.0.1:3001/question?pergunta=${message}`)
+            const { data } = await axios.get(`${process.env.BOT_URL || 'http://localhost:3001'}/question?pergunta=${message}`)
 
             return data
         },
