@@ -241,7 +241,7 @@ export default {
         },
         async findWord(message) {
             //é necessário trocar para buscar do env
-            const { data } = await axios.get(`${'https://chatbot-saude-api.herokuapp.com' || 'http://localhost:3001'}/question?pergunta=${message}`)
+            const { data } = await axios.get(`${'https://chatbot-saude-api.herokuapp.com' || 'http://localhost:3001'}/question?pergunta=${message.toLowerCase()}`)
 
             return data
         },
