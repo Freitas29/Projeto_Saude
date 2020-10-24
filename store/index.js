@@ -49,6 +49,10 @@ export const mutations = {
 
     updateMessages(state, payload) {
         state.messages = [...state.messages, payload]
+    },
+
+    removeListening(state){
+        state.messages = [...state.messages].filter(message => !message.selection)
     }
 }
 

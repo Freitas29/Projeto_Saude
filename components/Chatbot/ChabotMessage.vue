@@ -1,5 +1,5 @@
 <template>
-    <li :class="['message', type]">
+    <li :class="['message', type, classSelection]" @click="handleSelection">
         <p v-if="!isLoading">{{ text }}</p>
         <i :class="text" v-if="isLoading"/>
     </li>
@@ -20,7 +20,23 @@ export default {
         isLoading: {
             type: Boolean,
             default: false
+        },
+        selection: {
+            type: [ Boolean, Function ]
         }
+    },
+    methods: {
+        handleSelection() {
+            if(this.selection){
+                this.selection(this.text)
+            }
+        }
+    },
+    computed: {
+        classSelection() {
+            return this.selection ? "selection" : ""
+        }
+        
     }
 }
 </script>
@@ -29,6 +45,8 @@ export default {
 $weight: bold;
 $question-color: #2A7AE4;
 $question-font-color: #F5F7FB;
+$selection-color: #6C63FF;
+$selection-font-color: #F5F7FB;
 
 .message {
     width: 80%;
@@ -59,5 +77,17 @@ $question-font-color: #F5F7FB;
     float: right;
     background-color: $question-color;
     color: $question-font-color;
+}
+
+.selection {
+    width: fit-content;
+    cursor: pointer;
+    color: $selection-font-color;
+    background-color: $selection-color;
+    transition: all 0.5s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 </style>
