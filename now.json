@@ -1,10 +1,12 @@
 {
     "env": {
-      "BASE_URL": "https://saude-backend.herokuapp.com"
+      "BASE_URL": "https://saude-backend.herokuapp.com",
+      "BOT_URL": "https://chatbot-saude-api.herokuapp.com/"
     },
     "build": {
         "env": {
-            "BASE_URL": "https://saude-backend.herokuapp.com"
+            "BASE_URL": "https://saude-backend.herokuapp.com",
+            "BOT_URL": "https://chatbot-saude-api.herokuapp.com/"
         }
       }
   }
