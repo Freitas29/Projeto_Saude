@@ -67,12 +67,13 @@ $animation-delay: 0.4s;
     justify-content: space-around;
 
     .input-chat {
+        background-color: #babaca;
         width: 100%;
         height: 110%;
         border: none;
         outline: none;
-        border-radius: $border;
-        padding: 5px;
+        border-radius: 12px;
+        padding: 5px 10px;
         font-size: 14px;
     }
 }
@@ -80,6 +81,7 @@ $animation-delay: 0.4s;
 .send-message{
     margin-left: 7px;
     font-size: 15px;
+    background-color: #babaca;
 }
 
 .wrapper-click {

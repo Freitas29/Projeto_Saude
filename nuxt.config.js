@@ -13,7 +13,11 @@ export default {
       { property: 'og:image', content: "./assets/pingo.png" || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/pingo.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/pingo.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap'
+      }
     ]
   },
   env: {

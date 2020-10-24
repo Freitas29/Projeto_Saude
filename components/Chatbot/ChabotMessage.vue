@@ -35,8 +35,9 @@ $question-font-color: #F5F7FB;
     position: absolute;
 
     p {
+        font-family: 'Balsamiq Sans', cursive;
         font-weight: $weight;
-        font-size: 12px;
+        font-size: 14px;
     }
 }
 
