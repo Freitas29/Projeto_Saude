@@ -7,7 +7,7 @@
     class="max-chart"
   >
     <el-table
-      :data="insuranceCompanies"
+      :data="sortInsuranceCompanies"
       style="width: 100%"
       stripe
       v-if="isInsuranceCompany"
@@ -111,7 +111,10 @@ export default {
   },
   computed: {
     ...mapState(['isInsuranceCompany', 'insuranceCompanies', 'mapSelected']),
-
+    sortInsuranceCompanies() {
+      const clone = JSON.parse(JSON.stringify(this.insuranceCompanies))
+      return clone.sort((insuranceCompanieFirst, insuranceCompanieSeccond) =>  insuranceCompanieSeccond.f0_ - insuranceCompanieFirst.f0_)
+    },
     tableLength(value) {
       const firstScrollTo = scroller()
 
