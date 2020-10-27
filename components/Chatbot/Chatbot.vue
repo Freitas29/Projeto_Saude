@@ -111,6 +111,10 @@ export default {
         buildTextAfterResponseAboutCovid(options) {
             options.map(option => this.sendBotMessage(option, 500, this.callAfterClick))
         },
+        buildTextFromArray(response) {
+            const text = response.map(prevencao => `${prevencao.includes(",") ? '\n' + prevencao  : prevencao}`)
+            return text.join('\n')
+        },
         async callAfterClick(selected) {
             const word = selected.toLowerCase()
             const opcoes = ['mundo', 'brasil', 'sintomas', 'prevenção']
@@ -236,7 +240,7 @@ export default {
             if(response){
                 await response(resposta)
             }else{
-                this.sendBotMessage(resposta)
+                this.sendBotMessage(Array.isArray(resposta) ? this.buildTextFromArray(resposta) : resposta)
             }
         },
         async findWord(message) {

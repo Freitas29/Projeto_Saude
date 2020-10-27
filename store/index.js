@@ -3,7 +3,7 @@ export const state = () => ({
     insuranceCompanySelected: [],
     chartGrowthData: [],
     mapSelected: {},
-    messages: [{value: "Oi, meu nome é chatbot, o que você deseja saber?", type: "answer"}],
+    messages: [{value: "Oi, meu nome é baymax, o que você deseja saber? \n\n Covid \n\n Consultar preços", type: "answer"}],
     insuranceCompanies: [],
     isInsuranceCompany: false,
     county: "",
