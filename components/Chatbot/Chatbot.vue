@@ -179,6 +179,8 @@ export default {
             this.clearInputMessage()            
 
             const response = await this.callAfterResponse(message)
+
+            if(typeof response === "undefined") return
             
             const text = this.buildTextAfterResponse(response)
             
@@ -222,9 +224,15 @@ export default {
             this.buildText =  this.buildTextPriceInformation
         },
         async getPrice(message) {
-            const { data } = await this.$axios.get(`/price?name=${message}`)
+            try{
+                const { data } = await this.$axios.get(`/price?name=${message}`)
+                return data
+            }catch(e){
+                 this.sendBotMessage(e.response.data)
 
-            return data
+                this.waitingResponse = false
+                return 
+            }
         },
         async showResponse(message) {
             const { resposta } = await this.findWord(message);
