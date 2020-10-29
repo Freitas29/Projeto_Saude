@@ -34,6 +34,9 @@ export default {
             buildText: () => {}
         }
     },
+    mounted() {
+        this.$root.$on('searchPrice', this.handleSearchPrice)
+    },
     computed: {
         ...mapState({
             messages: state => {
@@ -190,6 +193,7 @@ export default {
         },
         async sendMessage(){
             const message = this.message
+            
             if(message === "") return
 
             this.loading = true
@@ -219,6 +223,15 @@ export default {
         },
         async getPriceInsuranceCompany() {
             this.sendBotMessage("Por favor, informe o nome da seguradora")
+            this.getPriceInfo()
+        },
+        handleSearchPrice(company) {
+            this.message = company
+            this.chatIsOpen = true
+            this.getPriceInfo()
+            this.sendMessage()
+        },
+        getPriceInfo() {
             this.waitingResponse = true
             this.callAfterResponse = this.getPrice
             this.buildText =  this.buildTextPriceInformation

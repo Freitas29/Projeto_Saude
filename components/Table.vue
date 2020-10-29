@@ -79,10 +79,20 @@
       class="float-chart"
       :key="3"
       @click="search"
-      v-if="isInsuranceCompany && multipleSelection.length > 0"
+      v-if="insuranceCompaniesSelected"
       icon="el-icon-data-line"
       >Predição</el-button
     >
+    <el-button
+      type="info"
+      class="float-info"
+      :key="6"
+      @click="searchInfo"
+      v-if="this.isInsuranceCompany && this.multipleSelection.length === 1"
+      icon="el-icon-s-comment"
+    >
+      Consultar preço
+    </el-button>
   </transition-group>
 </template>
 
@@ -115,6 +125,9 @@ export default {
       const clone = JSON.parse(JSON.stringify(this.insuranceCompanies))
       return clone.sort((insuranceCompanieFirst, insuranceCompanieSeccond) =>  insuranceCompanieSeccond.f0_ - insuranceCompanieFirst.f0_)
     },
+    insuranceCompaniesSelected() {
+      return this.isInsuranceCompany && this.multipleSelection.length > 0
+    },
     tableLength(value) {
       const firstScrollTo = scroller()
 
@@ -133,6 +146,10 @@ export default {
     }
   },
   methods: {
+    searchInfo() {
+      const [ company ] = this.multipleSelection
+      this.$root.$emit("searchPrice", company.NM_RAZAO_SOCIAL)
+    },
     handleRowClick(value) {
       this.$store.dispatch('changeIsInsuranceCompany', true)
       this.$store.dispatch('changeCounty', value.NM_MUNICIPIO)
@@ -193,14 +210,21 @@ export default {
 <style scoped>
 .float {
   position: fixed;
-  bottom: 25px;
+  bottom: 80px;
   right: 15px;
 }
 
 .float-chart {
   position: fixed;
   right: 15px;
-  bottom: 12%;
+  bottom: 19%;
+}
+
+.float-info{
+  position: fixed;
+  right: 15px;
+  bottom: 26%;
+
 }
 .max-chart {
   width: 100%;
