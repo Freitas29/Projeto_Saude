@@ -3,7 +3,7 @@ export const state = () => ({
     insuranceCompanySelected: [],
     chartGrowthData: [],
     mapSelected: {},
-    messages: [{value: "Oi, meu nome é baymax, o que você deseja saber? \n\n Covid \n\n Consultar preços \n\n Sintomas \n\n Prevenção \n\n Número de casos", type: "answer"}],
+    messages: [{value: "Oi, meu nome é baymax, o que você deseja saber? \n\n Covid \n\n Consultar preços \n\n Sintomas \n\n Prevenção", type: "answer"}],
     insuranceCompanies: [],
     isInsuranceCompany: false,
     county: "",
