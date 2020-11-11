@@ -26,3 +26,7 @@ export function getRandomColor() {
 export function objectIsEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
+
+export function formatDatePtBr(date){
+  return new Intl.DateTimeFormat('pt-BR').format(date)
+}
