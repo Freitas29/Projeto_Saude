@@ -9,9 +9,10 @@
 
 `http://localhost:3000/`
 
-# Saude
+# Configuração
 
-> My priceless Nuxt.js project
+> Acesse o arquivo `nuxtState.env` e altere BASE_URL para o o endereço de DEV da api em nodejs `http://localhost:5000/#/`
+
 
 ## Build Setup
 
