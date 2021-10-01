@@ -1,3 +1,10 @@
+# Como iniciar o projeto
+
+```bash
+  npm i
+  npm start
+```
+
 # Saude
 
 > My priceless Nuxt.js project
