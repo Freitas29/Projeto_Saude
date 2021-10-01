@@ -5,6 +5,10 @@
   npm run dev
 ```
 
+# Para acessar, entre no navegador e digite a url
+
+`http://localhost:3000/`
+
 # Saude
 
 > My priceless Nuxt.js project
